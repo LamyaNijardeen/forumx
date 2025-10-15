@@ -1,76 +1,99 @@
 <?php
-// pages/edit_blog.php
 require_once __DIR__ . '/../includes/auth.php';
-require_login();
-require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
-$user = current_user();
-$errors = [];
+//session_start();
+require_login(); // redirect if not logged in
+$user = current_user(); // current user info
 
+// Get post id
 $post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($post_id <= 0) {
-    die("Invalid post ID.");
+    http_response_code(400);
+    echo "Invalid blog ID.";
+    exit;
 }
 
-// fetch post
+// Fetch blog post
 $stmt = $conn->prepare("SELECT * FROM blogPost WHERE id = ?");
 $stmt->bind_param('i', $post_id);
 $stmt->execute();
-$post = $stmt->get_result()->fetch_assoc();
+$result = $stmt->get_result();
+$post = $result->fetch_assoc();
 $stmt->close();
 
-if (!$post) die("Post not found.");
-if ($post['user_id'] != $user['id'] && !is_admin()) {
-    http_response_code(403);
-    die("You are not authorized to edit this post.");
+if (!$post) {
+    http_response_code(404);
+    echo "Blog post not found.";
+    exit;
 }
 
+// Only author or admin can edit
+if ($post['user_id'] != $user['id'] && !is_admin()) {
+    http_response_code(403);
+    echo "You are not authorized to edit this post.";
+    exit;
+}
+
+// Handle POST update
+$errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $token = $_POST['csrf_token'] ?? '';
     if (!validate_csrf($token)) {
-        $errors[] = "Invalid CSRF token.";
+        $errors[] = "Invalid request.";
     } else {
-        $title = trim($_POST['title'] ?? '');
-        $content = trim($_POST['content'] ?? '');
-        if ($title === '') $errors[] = "Title required.";
-        if ($content === '') $errors[] = "Content required.";
+        $title = trim($_POST['title']);
+        $content = trim($_POST['content']);
 
-        if (empty($errors)) {
-            $upd = $conn->prepare("UPDATE blogPost SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
-            $upd->bind_param('ssi', $title, $content, $post_id);
-            if ($upd->execute()) {
+        if (empty($title) || empty($content)) {
+            $errors[] = "Title and content cannot be empty.";
+        } else {
+            $update = $conn->prepare("UPDATE blogPost SET title = ?, content = ? WHERE id = ?");
+            $update->bind_param('ssi', $title, $content, $post_id);
+            if ($update->execute()) {
                 header("Location: /forumx/pages/view_blog.php?id=" . $post_id);
                 exit;
             } else {
-                $errors[] = "DB error: " . $upd->error;
+                $errors[] = "Failed to update blog post.";
             }
-            $upd->close();
         }
     }
 }
-
-include __DIR__ . '/../includes/header.php';
 ?>
-<h1>Edit Post</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Blog - ForumX</title>
+    <link rel="stylesheet" href="/forumx/assets/css/style.css">
+</head>
+<body>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
 
-<?php if (!empty($errors)): ?>
-  <div style="background:#ffe6e6;padding:10px;border:1px solid #ffb3b3;margin-bottom:12px">
-    <ul><?php foreach ($errors as $e) echo '<li>' . htmlspecialchars($e) . '</li>'; ?></ul>
-  </div>
-<?php endif; ?>
+    <div class="edit-blog-form">
+        <h1>Edit Blog Post</h1>
 
-<form method="POST">
-  <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
-  <label>Title<br>
-    <input type="text" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" style="width:100%;padding:8px;margin-top:6px" required>
-  </label><br><br>
+        <?php if (!empty($errors)): ?>
+            <div class="errors">
+                <?php foreach ($errors as $err) echo "<p>" . htmlspecialchars($err) . "</p>"; ?>
+            </div>
+        <?php endif; ?>
 
-  <label>Content<br>
-    <textarea name="content" rows="10" style="width:100%;padding:8px;margin-top:6px" required><?php echo htmlspecialchars($post['content']); ?></textarea>
-  </label><br><br>
+        <form action="" method="POST">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required><br><br>
 
-  <button type="submit" style="padding:8px 12px">Update</button>
-</form>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content" rows="10" required><?php echo htmlspecialchars($post['content']); ?></textarea><br><br>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+            <button type="submit">Update Blog</button>
+        </form>
+
+        <p><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">Back to Blog</a></p>
+    </div>
+
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
+</body>
+</html>
