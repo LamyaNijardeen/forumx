@@ -3,45 +3,55 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../includes/config.php';
+
 require_login();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    die("Method Not Allowed");
+    echo "Method Not Allowed";
+    exit;
 }
 
-$token = $_POST['csrf_token'] ?? '';
-if (!validate_csrf($token)) {
+// CSRF check
+$posted_token = $_POST['csrf_token'] ?? '';
+if (!validate_csrf($posted_token)) {
     http_response_code(400);
-    die("Invalid CSRF token");
+    echo "Invalid CSRF token";
+    exit;
 }
 
+// Post ID check
 $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-if ($post_id <= 0) die("Invalid post id");
+if ($post_id <= 0) {
+    http_response_code(400);
+    echo "Invalid post ID.";
+    exit;
+}
 
 $user = current_user();
-if (!$user) {
-    http_response_code(403);
-    die("Not authenticated");
-}
 
-// fetch owner
+// Fetch post
 $stmt = $conn->prepare("SELECT user_id FROM blogPost WHERE id = ?");
 $stmt->bind_param('i', $post_id);
 $stmt->execute();
-$post = $stmt->get_result()->fetch_assoc();
+$res = $stmt->get_result();
+$post = $res->fetch_assoc();
 $stmt->close();
 
 if (!$post) {
     http_response_code(404);
-    die("Post not found");
+    echo "Post not found.";
+    exit;
 }
 
+// Authorization
 if ($post['user_id'] != $user['id'] && !is_admin()) {
     http_response_code(403);
-    die("You are not authorized to delete this post");
+    echo "You are not authorized to delete this post.";
+    exit;
 }
 
+// Delete post
 $del = $conn->prepare("DELETE FROM blogPost WHERE id = ?");
 $del->bind_param('i', $post_id);
 if ($del->execute()) {
@@ -49,5 +59,6 @@ if ($del->execute()) {
     exit;
 } else {
     http_response_code(500);
-    die("Failed to delete post");
+    echo "Failed to delete post.";
+    exit;
 }
