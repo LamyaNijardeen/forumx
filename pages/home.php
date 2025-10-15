@@ -1,45 +1,64 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
 //session_start();
 $user = current_user(); // returns logged-in user info or null
 
-// fetch all blogs with author info
-$query = "SELECT blogPost.id, blogPost.title, blogPost.content, blogPost.created_at, user.username 
-          FROM blogPost
-          JOIN user ON blogPost.user_id = user.id
-          ORDER BY blogPost.created_at DESC";
-
+// Fetch all blogs with author info
+$query = "
+    SELECT blogPost.id, blogPost.title, blogPost.content, blogPost.created_at, user.username, blogPost.user_id
+    FROM blogPost
+    JOIN user ON blogPost.user_id = user.id
+    ORDER BY blogPost.created_at DESC
+";
 $result = $conn->query($query);
+$blogs = [];
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $blogs[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home - ForumX Blogs</title>
+    <meta charset="UTF-8">
+    <title>ForumX - Home</title>
+    <link rel="stylesheet" href="/forumx/assets/css/style.css">
 </head>
 <body>
-<h1>ForumX Blogs</h1>
+    <?php include __DIR__ . '/../includes/header.php'; ?>
 
-<?php if ($user): ?>
-    <p>Welcome, <?php echo htmlspecialchars($user['username']); ?>! <a href="/forumx/pages/create_blog.php">Create Blog</a> | <a href="/forumx/pages/logout.php">Logout</a></p>
-<?php else: ?>
-    <p><a href="/forumx/pages/login.php">Login</a> | <a href="/forumx/pages/register.php">Register</a></p>
-<?php endif; ?>
+    <h1>All Blogs</h1>
 
-<hr>
+    <?php if (empty($blogs)): ?>
+        <p>No blogs found.</p>
+    <?php else: ?>
+        <div class="blog-list">
+            <?php foreach ($blogs as $post): ?>
+                <div class="blog-card">
+                    <h2><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">
+                        <?php echo htmlspecialchars($post['title']); ?>
+                    </a></h2>
+                    <p>By <?php echo htmlspecialchars($post['username']); ?> on <?php echo $post['created_at']; ?></p>
+                    <p><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 200))); ?>...</p>
+                    <a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">Read more</a>
 
-<?php if ($result->num_rows > 0): ?>
-    <?php while ($row = $result->fetch_assoc()): ?>
-        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-            <h3><a href="/forumx/pages/view_blog.php?id=<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['title']); ?></a></h3>
-            <p>By <strong><?php echo htmlspecialchars($row['username']); ?></strong> on <?php echo $row['created_at']; ?></p>
-            <p><?php echo nl2br(htmlspecialchars(substr($row['content'], 0, 200))); ?>...</p>
-            <a href="/forumx/pages/view_blog.php?id=<?php echo $row['id']; ?>">Read More</a>
+                    <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
+                        <a href="/forumx/pages/edit_blog.php?id=<?php echo $post['id']; ?>">Edit</a>
+                        <form action="/forumx/pages/delete_post.php" method="POST" style="display:inline" onsubmit="return confirm('Delete this post?');">
+                            <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
-    <?php endwhile; ?>
-<?php else: ?>
-    <p>No blogs yet. <?php if ($user) echo 'Be the first to <a href="/forumx/pages/create_blog.php">create one</a>!'; ?></p>
-<?php endif; ?>
+    <?php endif; ?>
+
+    <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
