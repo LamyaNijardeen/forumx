@@ -3,7 +3,7 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/csrf.php';
 
-session_start();
+//session_start();
 $user = current_user(); // current logged-in user
 
 // Get post id from query string
