@@ -2,9 +2,10 @@
 // includes/footer.php
 ?>
 </main>
-<footer style="background:#f7f7f7;padding:12px 16px;border-top:1px solid #ddd;margin-top:24px">
+<footer class="site-footer">
   <div class="container">
-    <small>&copy; <?php echo date('Y'); ?> ForumX</small>
+    <p>&copy; <?php echo date('Y'); ?> ForumX — A community to share ideas.</p>
+    <p><small>Built with PHP, MySQL, HTML, CSS, and JavaScript.</small></p>
   </div>
 </footer>
 </body>

@@ -1,64 +1,64 @@
 <?php
+// pages/home.php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
-//session_start();
-$user = current_user(); // returns logged-in user info or null
 
-// Fetch all blogs with author info
-$query = "
-    SELECT blogPost.id, blogPost.title, blogPost.content, blogPost.created_at, user.username, blogPost.user_id
-    FROM blogPost
-    JOIN user ON blogPost.user_id = user.id
-    ORDER BY blogPost.created_at DESC
-";
-$result = $conn->query($query);
-$blogs = [];
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $blogs[] = $row;
-    }
+$user = current_user();
+
+// Fetch posts with author
+$sql = "SELECT b.id, b.title, b.content, b.created_at, u.username, b.user_id
+        FROM blogPost b
+        JOIN user u ON b.user_id = u.id
+        ORDER BY b.created_at DESC";
+$res = $conn->query($sql);
+$posts = [];
+if ($res) {
+    while ($r = $res->fetch_assoc()) $posts[] = $r;
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ForumX - Home</title>
-    <link rel="stylesheet" href="/forumx/assets/css/style.css">
-</head>
-<body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <h1>All Blogs</h1>
 
-    <?php if (empty($blogs)): ?>
-        <p>No blogs found.</p>
+<div class="layout">
+  <div class="main">
+    <h1>Recent Posts</h1>
+    <?php if (empty($posts)): ?>
+      <div class="card"><p>No posts yet. <?php if ($user) echo '<a href="/forumx/pages/create_blog.php">Create the first post</a>.'; ?></p></div>
     <?php else: ?>
-        <div class="blog-list">
-            <?php foreach ($blogs as $post): ?>
-                <div class="blog-card">
-                    <h2><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">
-                        <?php echo htmlspecialchars($post['title']); ?>
-                    </a></h2>
-                    <p>By <?php echo htmlspecialchars($post['username']); ?> on <?php echo $post['created_at']; ?></p>
-                    <p><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 200))); ?>...</p>
-                    <a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">Read more</a>
-
-                    <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
-                        <a href="/forumx/pages/edit_blog.php?id=<?php echo $post['id']; ?>">Edit</a>
-                        <form action="/forumx/pages/delete_post.php" method="POST" style="display:inline" onsubmit="return confirm('Delete this post?');">
-                            <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
-                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
-                            <button type="submit">Delete</button>
-                        </form>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
-        </div>
+      <?php foreach ($posts as $post): ?>
+        <article class="card">
+          <h2><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a></h2>
+          <div class="meta">By <?php echo htmlspecialchars($post['username']); ?> · <?php echo htmlspecialchars($post['created_at']); ?></div>
+          <div class="excerpt"><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 220))); ?>...</div>
+          <div style="margin-top:10px;">
+            <a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>">Read more</a>
+            <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
+              <span style="margin-left:10px;"><a href="/forumx/pages/edit_blog.php?id=<?php echo $post['id']; ?>">Edit</a></span>
+              <form action="/forumx/pages/delete_post.php" method="POST" style="display:inline;margin-left:8px" onsubmit="return confirm('Delete this post?');">
+                <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+                <button type="submit" style="background:none;border:none;color:#d9534f;cursor:pointer">Delete</button>
+              </form>
+            <?php endif; ?>
+          </div>
+        </article>
+      <?php endforeach; ?>
     <?php endif; ?>
+  </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
-</body>
-</html>
+  <aside class="sidebar">
+    <div class="profile-card">
+      <h3>About ForumX</h3>
+      <p>A minimal writing platform for sharing ideas. Create an account and start publishing.</p>
+      <?php if (!$user): ?>
+        <p><a class="button" href="/forumx/pages/register.php">Join ForumX</a></p>
+      <?php else: ?>
+        <p><a class="button" href="/forumx/pages/create_blog.php">Write a story</a></p>
+      <?php endif; ?>
+    </div>
+  </aside>
+</div>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>
