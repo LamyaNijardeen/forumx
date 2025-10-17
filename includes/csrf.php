@@ -5,8 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 /**
- * Return a CSRF token (creates one if missing).
- * Stored in session.
+ * Generate or return existing CSRF token stored in session
  */
 function csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
@@ -16,7 +15,7 @@ function csrf_token(): string {
 }
 
 /**
- * Validate a posted token.
+ * Validate posted token
  */
 function validate_csrf(?string $token): bool {
     if (empty($token) || empty($_SESSION['csrf_token'])) return false;

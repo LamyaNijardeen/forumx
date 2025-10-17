@@ -5,7 +5,7 @@ session_start();
 // Remove all session data
 $_SESSION = [];
 
-// If using cookies for session, remove cookie
+// Destroy session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -17,6 +17,6 @@ if (ini_get("session.use_cookies")) {
 // Destroy session on server
 session_destroy();
 
-// Redirect to home
-header('Location: /forumx/pages/home.php');
+// Redirect to login page
+header('Location: /forumx/pages/login.php');
 exit;

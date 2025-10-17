@@ -5,33 +5,38 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 
 $user = current_user();
+$post_id = (int)($_GET['id'] ?? 0);
 
-$post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-if ($post_id <= 0) { http_response_code(400); exit("Invalid ID"); }
-
-$stmt = $conn->prepare("SELECT b.*, u.username FROM blogPost b JOIN user u ON b.user_id = u.id WHERE b.id=?");
-$stmt->bind_param("i", $post_id);
+$stmt = $conn->prepare("SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.id AS user_id, u.username
+                        FROM blogPost b
+                        JOIN user u ON b.user_id = u.id
+                        WHERE b.id = ?");
+$stmt->bind_param('i', $post_id);
 $stmt->execute();
 $res = $stmt->get_result();
 $post = $res->fetch_assoc();
 $stmt->close();
 
-if (!$post) { http_response_code(404); exit("Post not found."); }
+if (!$post) {
+    echo "Post not found.";
+    exit;
+}
 ?>
-
 <?php include __DIR__ . '/../includes/header.php'; ?>
-<?php include __DIR__ . '/../includes/navbar.php'; ?>
 
 <div class="layout">
   <div class="main">
     <article class="card">
-      <h1><?php echo htmlspecialchars($post['title']); ?></h1>
-      <div class="meta">By <?php echo htmlspecialchars($post['username']); ?> · <?php echo htmlspecialchars($post['created_at']); ?></div>
-
       <?php if (!empty($post['image_path'])): ?>
-        <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="" style="max-width:100%;margin:15px 0;">
+        <img class="card-image" src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="">
       <?php endif; ?>
 
+      <h2><?php echo htmlspecialchars($post['title']); ?></h2>
+      <div class="meta">
+        By <a href="/forumx/pages/profile.php?user_id=<?php echo $post['user_id']; ?>">
+          <?php echo htmlspecialchars($post['username']); ?>
+        </a> · <?php echo htmlspecialchars($post['created_at']); ?>
+      </div>
       <div class="content"><?php echo nl2br(htmlspecialchars($post['content'])); ?></div>
 
       <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
@@ -46,6 +51,18 @@ if (!$post) { http_response_code(404); exit("Post not found."); }
       <?php endif; ?>
     </article>
   </div>
+
+  <aside class="sidebar">
+    <div class="profile-card">
+      <h3>About ForumX</h3>
+      <p>A minimal writing platform for sharing ideas. Create an account and start publishing.</p>
+      <?php if (!$user): ?>
+        <p><a class="button" href="/forumx/pages/register.php">Join ForumX</a></p>
+      <?php else: ?>
+        <p><a class="button" href="/forumx/pages/create_blog.php">Write a story</a></p>
+      <?php endif; ?>
+    </div>
+  </aside>
 </div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

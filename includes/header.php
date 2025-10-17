@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 <a href="/forumx/pages/home.php">Home</a>
                 <a href="/forumx/pages/create_blog.php">Write</a>
                 <a href="/forumx/pages/about.php">About</a>
-                <a href="/forumx/auth/logout.php">Logout</a>
+                <a href="/forumx/pages/logout.php">Logout</a>
             </nav>
         </div>
     </header>
