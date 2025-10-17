@@ -8,5 +8,7 @@
     <p><small>Built with PHP, MySQL, HTML, CSS, and JavaScript.</small></p>
   </div>
 </footer>
+
+<script src="/forumx/assets/js/main.js" defer></script>
 </body>
 </html>
