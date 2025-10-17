@@ -6,16 +6,13 @@ require_once __DIR__ . '/../includes/csrf.php';
 
 $user = current_user();
 
-// Fetch posts with author
-$sql = "SELECT b.id, b.title, b.content, b.created_at, u.username, b.user_id
+$sql = "SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.username, b.user_id
         FROM blogPost b
         JOIN user u ON b.user_id = u.id
         ORDER BY b.created_at DESC";
 $res = $conn->query($sql);
 $posts = [];
-if ($res) {
-    while ($r = $res->fetch_assoc()) $posts[] = $r;
-}
+if ($res) while ($r = $res->fetch_assoc()) $posts[] = $r;
 ?>
 
 <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -29,6 +26,9 @@ if ($res) {
     <?php else: ?>
       <?php foreach ($posts as $post): ?>
         <article class="card">
+          <?php if (!empty($post['image_path'])): ?>
+            <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="" style="max-width:100%;margin:10px 0;">
+          <?php endif; ?>
           <h2><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a></h2>
           <div class="meta">By <?php echo htmlspecialchars($post['username']); ?> · <?php echo htmlspecialchars($post['created_at']); ?></div>
           <div class="excerpt"><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 220))); ?>...</div>
