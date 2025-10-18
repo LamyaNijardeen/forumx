@@ -2,11 +2,11 @@
 // pages/login.php
 session_start();
 
-require_once '../includes/config.php';  // DB connection
-require_once '../includes/csrf.php';     // CSRF token functions
-require_once '../includes/auth.php';     // Authentication helpers (is_logged_in, current_user)
+require_once '../includes/config.php';
+require_once '../includes/csrf.php';
+require_once '../includes/auth.php';
 
-// If already logged in, redirect to home
+// Redirect if logged in
 if (is_logged_in()) {
     header('Location: home.php');
     exit;
@@ -15,7 +15,6 @@ if (is_logged_in()) {
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // CSRF validation
     $posted_token = $_POST['csrf_token'] ?? '';
     if (!validate_csrf($posted_token)) {
         $errors[] = "Invalid CSRF token.";
@@ -23,10 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if (empty($email) || empty($password)) {
+        if ($email === '' || $password === '') {
             $errors[] = "Email and password are required.";
         } else {
-            // Fetch user by email
             $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
             $stmt->bind_param('s', $email);
             $stmt->execute();
@@ -35,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             if ($user && password_verify($password, $user['password'])) {
-                // Successful login
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 header('Location: home.php');
@@ -48,32 +45,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php include '../includes/header.php'; ?>
+<link rel="stylesheet" href="../assets/css/login.css">
 
-<div class="auth-container">
-    <h2>Login to ForumX</h2>
+<header class="login-header">
+  <div class="logo">ForumX</div>
+  <a href="/forumx/pages/about.php" class="about-btn">About us</a>
+</header>
 
-    <?php 
-    if (!empty($errors)) {
-        foreach ($errors as $e) {
-            echo '<p style="color:red;">' . htmlspecialchars($e) . '</p>';
-        }
-    }
-    ?>
+<main class="login-container">
+  <h1 class="title">Login to <span>ForumX</span></h1>
 
-    <form action="login.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+  <?php if (!empty($errors)): ?>
+    <div class="error-box">
+      <ul>
+        <?php foreach ($errors as $e) echo '<li>' . htmlspecialchars($e) . '</li>'; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
 
-        <label for="email">Email</label><br>
-        <input type="email" name="email" id="email" required><br><br>
+  <form action="" method="POST" novalidate>
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
 
-        <label for="password">Password</label><br>
-        <input type="password" name="password" id="password" required><br><br>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
 
-        <button type="submit">Login</button>
-    </form>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
 
-    <p>Don't have an account? <a href="register.php">Register here</a></p>
-</div>
+    <button type="submit" class="submit-btn">Login</button>
+  </form>
 
-<?php include '../includes/footer.php'; ?>
+  <p class="register-text">Don’t have an account? <a href="register.php">Register here</a></p>
+
+  <img src="../assets/images/pen.png" alt="Pen" class="pen-img">
+</main>
+
+<footer class="footer">
+  © 2025 ForumX — A community to share ideas.
+</footer>
+
+<script>
+document.querySelector('form').addEventListener('submit', e => {
+  const email = e.target.email.value.trim();
+  const password = e.target.password.value.trim();
+  if (!email || !password) {
+    alert('Please fill in both fields.');
+    e.preventDefault();
+  }
+});
+</script>

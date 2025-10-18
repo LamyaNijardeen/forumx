@@ -1,0 +1,172 @@
+/* ---------- GENERAL RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5ebe0;
+  color: #1a1a1a;
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 3rem;
+  background-color: #f5ebe0;
+  border-bottom: 1px solid #d4c4b1;
+}
+
+.logo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.nav-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background: #966037;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: #000000;  
+}
+
+.nav-btn.filled {
+  background: #966037;
+}
+
+.nav-btn.filled:hover {
+  background: #000000;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+}
+
+.hero-content {
+  max-width: 55%;
+}
+
+.hero-content h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.brand {
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.desc {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cta {
+  margin-bottom: 2.5rem;
+}
+
+.link-main {
+  color: #000;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.link-main:hover {
+  color: #a55a24;
+}
+
+.link-sub {
+    font-size: 1.1rem;
+  color: #000;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.link-sub:hover {
+  color: #a55a24;
+}
+
+/* ---------- DIVIDER TEXT ---------- */
+.divider {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  border-top: 1px solid #8b521a;
+  padding-top: 1.2rem;
+}
+
+.divider span {
+  border-left: 1px solid #a16219;
+  padding-left: 1rem;
+}
+
+.divider span:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+/* ---------- HERO IMAGE ---------- */
+.hero-image img {
+  width: 400px;
+  height: auto;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+  padding: 1rem 0;
+  border-top: 1px solid #d4c4b1;
+  background-color: #f5ebe0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-image img {
+    width: 250px;
+    margin-top: 2rem;
+  }
+
+  .nav-right {
+    gap: 0.5rem;
+  }
+}

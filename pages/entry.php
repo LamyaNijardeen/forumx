@@ -10,33 +10,53 @@ if ($user) {
     exit;
 }
 ?>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ForumX</title>
+    <link rel="stylesheet" href="/forumx/assets/css/entry.css">
+</head>
+<body>
 
-<section class="entry-hero">
-  <div class="entry-inner">
-    <h1>Welcome to ForumX</h1>
-    <p>Join a growing community of thinkers, writers, and learners.</p>
-
-    <div class="entry-cta">
-      <a class="button" href="/forumx/pages/register.php">Get Started — Create an account</a>
-      <a class="ghost" href="/forumx/pages/login.php">Sign in</a>
+<header class="navbar">
+    <div class="nav-left">
+        <h1 class="logo">ForumX</h1>
     </div>
-  </div>
-</section>
+    <div class="nav-right">
+        <a href="/forumx/pages/about.php" class="nav-btn">About us</a>
+        <a href="/forumx/pages/register.php" class="nav-btn">Write</a>
+        <a href="/forumx/pages/register.php" class="nav-btn filled">Get Started</a>
+    </div>
+</header>
 
-<section class="entry-features fx-container">
-  <div class="feature">
-    <h3>Publish ideas</h3>
-    <p>Turn your thoughts into stories and share them with others.</p>
-  </div>
-  <div class="feature">
-    <h3>Engage & Learn</h3>
-    <p>Discover new perspectives and insights from other creators.</p>
-  </div>
-  <div class="feature">
-    <h3>Grow Together</h3>
-    <p>Build your writing journey with a like-minded community.</p>
-  </div>
-</section>
+<main class="hero">
+    <div class="hero-content">
+        <h2>Welcome to</h2>
+        <h1 class="brand">ForumX</h1>
+        <p class="desc">Join a growing community of thinkers, writers, and learners</p>
+        <div class="cta">
+            <a href="/forumx/pages/register.php" class="link-main">Get Started — Create an account</a>
+            <a href="/forumx/pages/login.php" class="link-sub">Log in</a>
+        </div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+        <div class="divider">
+            <span>Publish</span>
+            <span>Engage</span>
+            <span>Learn</span>
+            <span>Grow Together</span>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <img src="/forumx/assets/images/pen.png" alt="ForumX pen">
+    </div>
+</main>
+
+<footer class="footer">
+    <p>© 2025 ForumX — A community to share ideas.</p>
+</footer>
+
+</body>
+</html>
