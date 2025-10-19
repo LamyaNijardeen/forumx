@@ -1,0 +1,277 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #f5ebe0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background-color: #faeee0;
+  border-bottom: 1px solid #c8b9a0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  flex-wrap: wrap;
+}
+
+header .left-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+header nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+header nav a {
+  background: #966037;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+header nav a:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+header .user-info {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header .separator {
+  height: 20px;
+  width: 2px;
+  background-color: #966037;
+}
+
+header .logout-btn {
+  background: #966037;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+header .logout-btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1.05fr 280px; /* tighter sidebar space */
+  align-items: start;
+  gap: 1.5rem; /* smaller gap between posts and sidebar */
+  max-width: 1150px;
+  margin: 2rem auto;
+  width: 90%;
+}
+
+/* Search bar */
+.search-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-container input {
+  margin-top: 20px;
+  width: 400px;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;
+  border-radius: 20px;
+  border: 2px solid #966037;
+  font-style: italic;
+  outline: none;
+}
+
+.search-container button {
+  position: absolute;
+  right: calc(50% - 200px + 10px);
+  top: 26px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #966037;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.search-container button:hover {
+  color: #000;
+}
+
+/* Main content */
+.main {
+  background-color: transparent;
+  margin-left: 0; /* Align with image */
+}
+
+.card {
+  background-color: transparent;
+  margin-bottom: 2rem;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* 🟤 Image styling like Medium */
+.image-wrapper {
+  display: flex;
+  justify-content: flex-start; /* Align image with text */
+  width: 100%;
+  margin-bottom: 0.8rem;
+}
+
+.image-wrapper img {
+  width: 100%;
+  max-width: 500px; /* smaller size */
+  height: 260px; /* balanced image height */
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Post content */
+.card h2 {
+  margin-top: 0.3rem;
+  font-size: 1.25rem;
+  color: #1a1a1a;
+}
+
+.card h2 a {
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: color 0.3s ease;
+}
+
+.card h2 a:hover {
+  color: #8a5a36;
+  text-decoration: underline;
+}
+
+.meta {
+  font-size: 0.92rem;
+  color: #555;
+  margin-top: 0.2rem;
+}
+
+.excerpt {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  color: #1a1a1a;
+  line-height: 1.5;
+}
+
+.card-actions a {
+  color: #2a4bd6;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-top: 0.4rem;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.card-actions a:hover {
+  color: #8a5a36;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #fff8ef;
+  border: 1px solid #c8b9a0;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.sidebar img {
+  width: 110px;
+  margin-bottom: 1rem;
+}
+
+.sidebar p {
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.sidebar a {
+  color: #000;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+  color: #8a5a36;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  border-top: 1px solid hsl(33, 29%, 76%);
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  header nav {
+    display: none;
+  }
+
+  .search-container {
+    display: none;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    margin-top: 2rem;
+  }
+
+  .user-info {
+    font-size: 1rem;
+  }
+
+  .image-wrapper img {
+    max-width: 100%;
+    height: auto;
+  }
+}

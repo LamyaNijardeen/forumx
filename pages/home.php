@@ -6,16 +6,15 @@ require_once __DIR__ . '/../includes/csrf.php';
 
 $user = current_user();
 
-// if guest, redirect to entry page
+// Redirect guest to entry page
 if (!$user) {
     header('Location: entry.php');
     exit;
 }
 
-// handle search
+// Handle search
 $q = trim((string)($_GET['q'] ?? ''));
 
-// if search term present, search by title
 if ($q !== '') {
     $like = '%' . $q . '%';
     $stmt = $conn->prepare("SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.username, b.user_id
@@ -37,37 +36,90 @@ if ($q !== '') {
     $posts = $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
 }
 ?>
-<?php include __DIR__ . '/../includes/header.php'; ?>
 
-<section class="home-hero">
-  <h1>Welcome back, <?php echo htmlspecialchars($user['username']); ?>!</h1>
-  <p>Read, write, and share your ideas on ForumX.</p>
-</section>
+<link rel="stylesheet" href="/forumx/assets/css/home.css">
 
-<div class="layout">
-  <div class="main">
-    <?php if (empty($posts)): ?>
-      <div class="card"><p>No posts found. <a href="create_blog.php">Create one now</a>.</p></div>
-    <?php else: ?>
-      <?php foreach ($posts as $post): ?>
-        <article class="card">
-          <?php if (!empty($post['image_path'])): ?>
-            <img class="card-image" src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="">
-          <?php endif; ?>
-
-          <h2><a href="view_blog.php?id=<?php echo (int)$post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a></h2>
-          <div class="meta">
-            By <a href="profile.php?user_id=<?php echo (int)$post['user_id']; ?>"><?php echo htmlspecialchars($post['username']); ?></a> · 
-            <?php echo date('F j, Y', strtotime($post['created_at'])); ?>
-          </div>
-          <div class="excerpt"><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 220))); ?>...</div>
-          <div class="card-actions">
-            <a href="view_blog.php?id=<?php echo (int)$post['id']; ?>">Read more</a>
-          </div>
-        </article>
-      <?php endforeach; ?>
-    <?php endif; ?>
+<header>
+  <div class="left-section">
+    <div class="logo">ForumX</div>
+    <nav>
+      <a href="home.php">Home</a>
+      <a href="about.php">About us</a>
+      <a href="create_blog.php">Write</a>
+    </nav>
   </div>
-</div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+  <div class="user-info">
+    Hello, <?php echo htmlspecialchars($user['username']); ?>
+    <div class="separator"></div>
+    <a class="logout-btn" href="logout.php">Logout</a>
+  </div>
+</header>
+
+<main>
+  <!-- Search Bar -->
+  <div class="search-container">
+    <form method="GET" action="">
+      <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($q); ?>">
+      <button type="submit" title="Search">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <div class="layout">
+    <!-- Main Blog Feed -->
+    <div class="main">
+      <?php if (empty($posts)): ?>
+        <div class="card"><p>No posts found. <a href="create_blog.php">Create one now</a>.</p></div>
+      <?php else: ?>
+        <?php foreach ($posts as $post): ?>
+          <article class="card">
+            <?php if (!empty($post['image_path'])): ?>
+              <div class="image-wrapper">
+                <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog image">
+              </div>
+            <?php endif; ?>
+
+            <h2>
+              <a href="view_blog.php?id=<?php echo (int)$post['id']; ?>">
+                <?php echo htmlspecialchars($post['title']); ?>
+              </a>
+            </h2>
+            <div class="meta">
+              By <?php echo htmlspecialchars($post['username']); ?> &nbsp;&nbsp;
+              <?php echo date('F j, Y', strtotime($post['created_at'])); ?>
+            </div>
+            <p class="excerpt">
+              <?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 180))); ?>...
+            </p>
+            <div class="card-actions">
+              <a href="view_blog.php?id=<?php echo (int)$post['id']; ?>">Read more</a>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <img src="/forumx/assets/images/pen.png" alt="Pen icon">
+      <p>A minimal writing platform for sharing ideas</p>
+      <p>Create an account and start publishing</p>
+      <p>Search your interest by topics</p>
+      <p>Learn together with the bright minds</p>
+      <p>Share your knowledge — we are here to see</p>
+      <br>
+      <p><strong>Start Today</strong></p>
+      <a href="create_blog.php">Write a story</a>
+      <p style="margin-top:1rem; font-size:0.85rem; color:#888;">© 2025 ForumX</p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  © 2025 ForumX — A community to share ideas.
+</footer>
+
+<!-- Font Awesome for search icon -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
