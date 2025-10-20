@@ -1,12 +1,11 @@
 <?php
-// pages/edit_blog.php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 
 require_login();
 $user = current_user();
-$errors = array();
+$errors = [];
 
 $post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($post_id <= 0) {
@@ -14,140 +13,128 @@ if ($post_id <= 0) {
     exit('Invalid id');
 }
 
-// fetch post
 $stmt = $conn->prepare("SELECT * FROM blogPost WHERE id = ?");
-if ($stmt === false) {
-    exit('DB prepare error: ' . htmlspecialchars($conn->error));
-}
 $stmt->bind_param('i', $post_id);
 $stmt->execute();
 $res = $stmt->get_result();
 $post = $res->fetch_assoc();
 $stmt->close();
 
-if (! $post) {
+if (!$post) {
     http_response_code(404);
     exit('Post not found');
 }
 
-// ownership check
 if ($post['user_id'] != $user['id'] && !is_admin()) {
     http_response_code(403);
     exit('Forbidden');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // CSRF
-    if (! validate_csrf($_POST['csrf_token'] ?? '')) {
+    if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Invalid CSRF token.';
     } else {
-        $title = trim((string)($_POST['title'] ?? ''));
-        $content = trim((string)($_POST['content'] ?? ''));
+        $title = trim($_POST['title'] ?? '');
+        $content = trim($_POST['content'] ?? '');
+        $image_path = $post['image_path'];
 
-        if ($title === '') {
-            $errors[] = 'Title required.';
-        }
-        if ($content === '') {
-            $errors[] = 'Content required.';
-        }
+        if ($title === '') $errors[] = 'Title required.';
+        if ($content === '') $errors[] = 'Content required.';
 
-        // optional new image upload -> replace previous image_path if uploaded
-        $image_path = $post['image_path'] ?? null;
-        if (! empty($_FILES['image']['name'])) {
-            $allowed = array('image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif');
+        if (!empty($_FILES['image']['name'])) {
+            $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
             $fileType = $_FILES['image']['type'] ?? '';
-            if (! array_key_exists($fileType, $allowed)) {
+            if (!array_key_exists($fileType, $allowed)) {
                 $errors[] = 'Only JPG, PNG, GIF allowed.';
             } else {
                 $ext = $allowed[$fileType];
                 $filename = uniqid('img_', true) . '.' . $ext;
                 $targetDir = __DIR__ . '/../assets/images/';
-                if (! is_dir($targetDir)) {
-                    if (! mkdir($targetDir, 0755, true)) {
-                        $errors[] = 'Failed to create image directory.';
+                if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
+                $targetPath = $targetDir . $filename;
+
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                    if (!empty($post['image_path']) && file_exists($targetDir . $post['image_path'])) {
+                        @unlink($targetDir . $post['image_path']);
                     }
-                }
-                if (empty($errors)) {
-                    $targetPath = $targetDir . $filename;
-                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                        // delete old image if exists
-                        if (! empty($post['image_path']) && file_exists($targetDir . $post['image_path'])) {
-                            @unlink($targetDir . $post['image_path']);
-                        }
-                        $image_path = $filename;
-                    } else {
-                        $errors[] = 'Failed to upload new image.';
-                    }
+                    $image_path = $filename;
+                } else {
+                    $errors[] = 'Failed to upload new image.';
                 }
             }
         }
 
         if (empty($errors)) {
-            $upd = $conn->prepare("UPDATE blogPost SET title = ?, content = ?, image_path = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
-            if ($upd === false) {
-                $errors[] = 'DB prepare error: ' . htmlspecialchars($conn->error);
+            $upd = $conn->prepare("UPDATE blogPost SET title=?, content=?, image_path=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
+            $upd->bind_param('sssi', $title, $content, $image_path, $post_id);
+            if ($upd->execute()) {
+                header('Location: /forumx/pages/view_blog.php?id=' . (int)$post_id);
+                exit;
             } else {
-                $upd->bind_param('sssi', $title, $content, $image_path, $post_id);
-                if ($upd->execute()) {
-                    $upd->close();
-                    header('Location: /forumx/pages/view_blog.php?id=' . (int)$post_id);
-                    exit;
-                } else {
-                    $errors[] = 'DB error: ' . htmlspecialchars($conn->error);
-                    $upd->close();
-                }
+                $errors[] = 'DB error: ' . htmlspecialchars($conn->error);
             }
+            $upd->close();
         }
     }
 }
 ?>
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ForumX | Create Blog</title>
+<link rel="stylesheet" href="/forumx/assets/css/edit_blog.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="left-section">
+      <div class="logo">ForumX</div>
+      <nav>
+        <a href="home.php">Home</a>
+        <a href="about.php">About us</a>
+        <a href="create_blog.php" class="active">Write</a>
+      </nav>
+    </div>
 
-<div class="layout">
-  <div class="main">
-    <h1>Edit Post</h1>
+    <div class="user-info">
+      Hello, <?php echo htmlspecialchars($user['username']); ?>
+      <div class="separator"></div>
+      <a class="logout-btn" href="logout.php">Logout</a>
+    </div>
+  </header>
+<div class="edit-container">
+    <h1>Edit Blog...</h1>
 
-    <?php
-    if (! empty($errors)) {
-        echo '<div class="errors">';
-        foreach ($errors as $e) {
-            echo '<p>' . htmlspecialchars($e) . '</p>';
-        }
-        echo '</div>';
-    }
-    ?>
+    <?php if (!empty($errors)): ?>
+        <div class="error-box">
+            <?php foreach ($errors as $e): ?>
+                <p><?= htmlspecialchars($e) ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token()); ?>">
 
-    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="<?= htmlspecialchars($post['title']); ?>">
 
-      <label for="title">Title</label><br>
-      <input id="title" type="text" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required style="width:100%;padding:8px;margin-bottom:8px;">
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="6"><?= htmlspecialchars($post['content']); ?></textarea>
 
-      <label for="content">Content</label><br>
-      <textarea id="content" name="content" rows="10" required style="width:100%;padding:8px;margin-bottom:8px;"><?php echo htmlspecialchars($post['content']); ?></textarea>
+        <?php if (!empty($post['image_path'])): ?>
+            <p>Current image:</p>
+            <img src="/forumx/assets/images/<?= htmlspecialchars($post['image_path']); ?>" alt="Current image" class="current-img">
+        <?php endif; ?>
 
-      <?php if (! empty($post['image_path'])) { ?>
-        <p>Current image:</p>
-        <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="" style="max-width:200px;border-radius:6px;">
-      <?php } ?>
+        <label for="image">Replace image (optional)</label>
+        <input type="file" id="image" name="image" accept="image/*">
 
-      <label for="image">Replace image (optional)</label><br>
-      <input id="image" type="file" name="image" accept="image/*"><br><br>
-
-      <button type="submit">Update</button>
+    <br><button type="submit" class="update-btn">Update</button>
     </form>
-  </div>
-
-  <aside class="sidebar">
-    <?php
-    if (file_exists(__DIR__ . '/../includes/sidebar.php')) {
-        include __DIR__ . '/../includes/sidebar.php';
-    } else {
-        // fallback simple sidebar
-        echo '<div class="profile-card"><h3>About ForumX</h3><p>Share ideas and stories.</p></div>';
-    }
-    ?>
-  </aside>
 </div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+  <!-- FOOTER -->
+  <footer>© 2025 ForumX — A community to share ideas.</footer>
+</body>
+</html>

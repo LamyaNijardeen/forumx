@@ -62,11 +62,10 @@ if ($q !== '') {
     <form method="GET" action="">
       <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($q); ?>">
       <button type="submit" title="Search">
-        <i class="fa fa-search"></i>
+<span>🔍</span>
       </button>
     </form>
   </div>
-
   <div class="layout">
     <!-- Main Blog Feed -->
     <div class="main">

@@ -1,0 +1,215 @@
+/* ----- General ----- */
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #fffaf6;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #1a1a1a;
+}
+
+/* Header */
+header {
+  background-color: #faeee0;
+  border-bottom: 1px solid #c8b9a0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  flex-wrap: wrap;
+}
+
+header .left-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+header nav {
+  display: flex;
+  gap: 1rem;
+}
+
+header nav a {
+  background: #966037;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+header nav a:hover, nav a.active {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+header .user-info {
+    font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header .separator {
+  width: 2px;
+  height: 20px;
+  background-color: #966037;
+}
+
+header .logout-btn {
+  background: #966037;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+header .logout-btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* ----- Layout ----- */
+.create-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem;
+  gap: 2rem;
+}
+
+.form-section {
+  width: 70%;
+}
+
+/* Sidebar */
+.sidebar {
+    margin-top: 60px;
+  background-color: #fff8ef;
+  border: 1px solid #c8b9a0;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.sidebar img {
+  width: 110px;
+  margin-bottom: 1rem;
+}
+
+.sidebar p {
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.sidebar a {
+  color: #000;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+  color: #8a5a36;
+}
+
+
+/*Layout*/
+.layout {
+  display: grid;
+  grid-template-columns: 1.05fr 240px; /* tighter sidebar space */
+  align-items: start;
+  gap: 1.5rem; /* smaller gap between posts and sidebar */
+  max-width: 1150px;
+  margin: 2rem auto;
+  width: 90%;
+}
+/* ----- Form ----- */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #966037;
+  border-radius: 8px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+textarea {
+  resize: none;
+}
+
+.publish-btn {
+  background-color: #966037;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 0.6rem 1.3rem;
+  margin-top: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.publish-btn:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid #c8b9a0;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+
+  .create-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-section{
+    width: 90%;
+  }
+
+   .sidebar {
+    margin-top: 2rem;
+  }
+
+  header nav {
+    display: none;
+  }
+
+    .user-info {
+    font-size: 1rem;
+  }
+}

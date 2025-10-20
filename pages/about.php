@@ -35,7 +35,7 @@ require_once __DIR__ . '/../includes/auth.php';
       <ul>
         <li>Create, edit, and delete your blog posts</li>
         <li>Upload images to enhance your posts</li>
-        <li>View posts from others and browse by author</li>
+        <li>View posts from others and browse by topic</li>
       </ul><br>
 
       <a href="create_blog.php" class="create-post-link">Create your first post</a>

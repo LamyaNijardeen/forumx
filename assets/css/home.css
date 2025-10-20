@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Times New Roman', Times, serif;
-  background-color: #f5ebe0;
+  background-color: #ffffff;
   color: #1a1a1a;
   min-height: 100vh;
   display: flex;
@@ -53,7 +53,7 @@ header nav a {
   transition: all 0.3s ease;
 }
 
-header nav a:hover {
+header nav a:hover, nav a.active {
   background: #000;
   transform: translateY(-2px);
 }
@@ -100,39 +100,35 @@ header .logout-btn:hover {
 
 /* Search bar */
 .search-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 20px;
 }
 
 .search-container input {
-  margin-top: 20px;
-  width: 400px;
-  padding: 0.6rem 2.5rem 0.6rem 1rem;
-  border-radius: 20px;
-  border: 2px solid #966037;
-  font-style: italic;
-  outline: none;
+    width: 260px;
+    padding: 6px 12px;
+    border-radius: 20px 0 0 20px;
+    border: 1px solid #b58b69;
+    font-style: italic;
+}
+.search-container button {
+    background-color: #8b6445;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-.search-container button {
-  position: absolute;
-  right: calc(50% - 200px + 10px);
-  top: 26px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #966037;
-  font-size: 1.1rem;
-  transition: color 0.3s;
+.search-container button:hover {
+    background-color: #6f4a33;
 }
 
 .search-container button:hover {
   color: #000;
 }
-
 /* Main content */
 .main {
   background-color: transparent;

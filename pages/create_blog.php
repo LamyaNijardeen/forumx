@@ -1,5 +1,4 @@
 <?php
-// pages/create_blog.php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -11,24 +10,21 @@ $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // CSRF
     if (!validate_csrf($_POST['csrf_token'] ?? '')) {
         $errors[] = 'Invalid request (CSRF).';
     } else {
-        // Validate inputs
-        $title = trim((string)($_POST['title'] ?? ''));
-        $content = trim((string)($_POST['content'] ?? ''));
+        $title = trim($_POST['title'] ?? '');
+        $content = trim($_POST['content'] ?? '');
 
         if ($title === '') $errors[] = 'Title is required.';
         if ($content === '') $errors[] = 'Content is required.';
 
-        // Image upload (optional)
         $image_path = null;
         if (!empty($_FILES['image']['name'])) {
             $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
             $fileType = $_FILES['image']['type'] ?? '';
             if (!array_key_exists($fileType, $allowed)) {
-                $errors[] = 'Only JPG, PNG, GIF are allowed for images.';
+                $errors[] = 'Only JPG, PNG, GIF are allowed.';
             } else {
                 $ext = $allowed[$fileType];
                 $filename = uniqid('img_', true) . '.' . $ext;
@@ -37,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $targetPath = $targetDir . $filename;
 
                 if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    $errors[] = 'Failed to move uploaded image.';
+                    $errors[] = 'Failed to upload image.';
                 } else {
                     $image_path = $filename;
                 }
@@ -48,56 +44,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare("INSERT INTO blogPost (user_id, title, content, image_path) VALUES (?, ?, ?, ?)");
             $stmt->bind_param('isss', $user['id'], $title, $content, $image_path);
             if ($stmt->execute()) {
-                $success = 'Post created successfully.';
-                // redirect to the post view
                 $newId = $stmt->insert_id;
                 $stmt->close();
                 header('Location: /forumx/pages/view_blog.php?id=' . (int)$newId);
                 exit;
             } else {
-                $errors[] = 'DB error: ' . htmlspecialchars($conn->error);
+                $errors[] = 'Database error: ' . htmlspecialchars($conn->error);
             }
-            $stmt->close();
         }
     }
 }
 ?>
 
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ForumX | Create Blog</title>
+  <link rel="stylesheet" href="/forumx/assets/css/create_blog.css">
+</head>
+<body>
 
-<div class="layout">
-  <div class="main">
-    <h1>Create Post</h1>
+  <!-- HEADER -->
+  <header>
+    <div class="left-section">
+      <div class="logo">ForumX</div>
+      <nav>
+        <a href="home.php">Home</a>
+        <a href="about.php">About us</a>
+        <a href="create_blog.php" class="active">Write</a>
+      </nav>
+    </div>
 
-    <?php if ($errors): ?>
-      <div class="errors">
-        <?php foreach ($errors as $e) echo '<p>' . htmlspecialchars($e) . '</p>'; ?>
-      </div>
-    <?php endif; ?>
+    <div class="user-info">
+      Hello, <?php echo htmlspecialchars($user['username']); ?>
+      <div class="separator"></div>
+      <a class="logout-btn" href="logout.php">Logout</a>
+    </div>
+  </header>
 
-    <?php if ($success): ?>
-      <p style="color:green;"><?php echo htmlspecialchars($success); ?></p>
-    <?php endif; ?>
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="layout">
+    <div class="form-section">
+      <h2>Create Blog...</h2>
 
-    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+      <?php if ($errors): ?>
+        <div class="error-box">
+          <?php foreach ($errors as $e): ?>
+            <p><?php echo htmlspecialchars($e); ?></p>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
 
-      <label>Title</label><br>
-      <input type="text" name="title" value="<?php echo isset($title) ? htmlspecialchars($title) : ''; ?>" required style="width:100%;padding:8px;margin-bottom:8px;">
+      <form action="" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
 
-      <label>Content</label><br>
-      <textarea name="content" rows="10" required style="width:100%;padding:8px;margin-bottom:8px;"><?php echo isset($content) ? htmlspecialchars($content) : ''; ?></textarea>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required>
 
-      <label>Image (optional)</label><br>
-      <input type="file" name="image" accept="image/*"><br><br>
+        <label for="content">Content</label>
+        <textarea name="content" id="content" rows="10" required></textarea>
 
-      <button type="submit">Publish</button>
-    </form>
-  </div>
+        <label for="image">Image <span>(optional)</span></label>
+        <input type="file" name="image" id="image" accept="image/*">
 
-  <aside class="sidebar">
-    <?php include __DIR__ . '/../includes/sidebar.php'; ?>
-  </aside>
-</div>
+        <button type="submit" class="publish-btn">Publish</button>
+      </form>
+    </div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+    <aside class="sidebar">
+      <img src="/forumx/assets/images/pen.png" alt="Pen icon">
+      <p>A minimal writing platform for sharing ideas</p>
+      <p>Create an account and start publishing</p>
+      <p>Search your interest by topics</p>
+      <p>Learn together with the bright minds</p>
+      <p>Share your knowledge — we are here to see</p>
+      <br>
+      <p><strong>Start Today</strong></p>
+      <a href="create_blog.php">Write a story</a>
+      <p style="margin-top:1rem; font-size:0.85rem; color:#888;">© 2025 ForumX</p>
+    </aside>
+          </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>© 2025 ForumX — A community to share ideas.</footer>
+
+</body>
+</html>
