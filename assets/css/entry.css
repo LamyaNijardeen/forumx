@@ -38,15 +38,16 @@ body {
 .nav-btn {
   background: #966037;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
   background: #000000;  
+  transform: translateY(-2px);
 }
 
 .nav-btn.filled {
@@ -152,6 +153,14 @@ body {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
+  .nav-right .nav-btn {
+    display: none; /* Hide all nav buttons */
+  }
+
+  .nav-right .nav-btn.get-started {
+    display: inline-block; /* Only show "Get Started" */
+  }
+
   .hero {
     flex-direction: column;
     text-align: center;
@@ -169,5 +178,4 @@ body {
   .nav-right {
     gap: 0.5rem;
   }
-  
 }

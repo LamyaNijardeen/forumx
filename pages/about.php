@@ -17,9 +17,9 @@ require_once __DIR__ . '/../includes/auth.php';
   <header class="about-header">
     <div class="logo">ForumX</div>
     <nav class="nav-links">
-      <a href="about.php" class="nav-btn">About us</a>
+      <a href="about.php" class="nav-btn active">About us</a>
       <a href="create_blog.php" class="nav-btn">Write</a>
-      <a href="register.php" class="nav-btn">Get Started</a>
+      <a href="register.php" class="nav-btn filled get-started">Get Started</a>
     </nav>
   </header>
 

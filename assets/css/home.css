@@ -53,10 +53,16 @@ header nav a {
   transition: all 0.3s ease;
 }
 
-header nav a:hover, nav a.active {
+header nav a:hover{
   background: #000;
   transform: translateY(-2px);
 }
+
+header nav a.active {
+  background: #000;
+  transform: none;
+}
+
 
 header .user-info {
   font-size: 1.1rem;
@@ -107,14 +113,14 @@ header .logout-btn:hover {
 
 .search-container input {
     width: 260px;
-    padding: 6px 12px;
+    padding: 7px 12px;
     border-radius: 20px 0 0 20px;
-    border: 1px solid #b58b69;
+    border: 1px solid #966037;
     font-style: italic;
 }
 .search-container button {
-    background-color: #8b6445;
-    border: none;
+    border: 1px solid #966037;
+    background-color: #fff;
     color: white;
     padding: 6px 14px;
     border-radius: 0 20px 20px 0;
@@ -123,7 +129,7 @@ header .logout-btn:hover {
 }
 
 .search-container button:hover {
-    background-color: #6f4a33;
+    background-color: #966037;
 }
 
 .search-container button:hover {
@@ -171,10 +177,11 @@ header .logout-btn:hover {
   text-decoration: none;
   color: #1a1a1a;
   transition: color 0.3s ease;
+  font-size: larger
 }
 
 .card h2 a:hover {
-  color: #8a5a36;
+  color: #966037;
   text-decoration: underline;
 }
 

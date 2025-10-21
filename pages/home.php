@@ -43,29 +43,27 @@ if ($q !== '') {
   <div class="left-section">
     <div class="logo">ForumX</div>
     <nav>
-      <a href="home.php">Home</a>
+      <a href="home.php" class="active">Home</a>
       <a href="about.php">About us</a>
       <a href="create_blog.php">Write</a>
     </nav>
   </div>
-
   <div class="user-info">
     Hello, <?php echo htmlspecialchars($user['username']); ?>
     <div class="separator"></div>
     <a class="logout-btn" href="logout.php">Logout</a>
   </div>
 </header>
-
-<main>
   <!-- Search Bar -->
   <div class="search-container">
     <form method="GET" action="">
-      <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($q); ?>">
-      <button type="submit" title="Search">
+      <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($q); ?>" >
+    <button type="submit" title="Search">
 <span>🔍</span>
       </button>
     </form>
   </div>
+<main>
   <div class="layout">
     <!-- Main Blog Feed -->
     <div class="main">

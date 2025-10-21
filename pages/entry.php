@@ -27,7 +27,7 @@ if ($user) {
     <div class="nav-right">
         <a href="/forumx/pages/about.php" class="nav-btn">About us</a>
         <a href="/forumx/pages/register.php" class="nav-btn">Write</a>
-        <a href="/forumx/pages/register.php" class="nav-btn filled">Get Started</a>
+        <a href="/forumx/pages/register.php" class="nav-btn filled get-started">Get Started</a>
     </div>
 </header>
 

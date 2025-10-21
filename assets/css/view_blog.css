@@ -182,7 +182,7 @@ header .logout-btn:hover {
 
 .edit-btn,
 .delete-btn {
-  border: 1px solid rgb(117, 70, 7);
+  border: 2px solid rgb(117, 70, 7);
   border-radius: 8px;
   font-size: 14px;
   text-decoration: none;
@@ -197,13 +197,13 @@ header .logout-btn:hover {
 .edit-btn:hover {
   color: #0040ff;
   text-decoration: underline;
-  border-color: #0040ff;
+  border: 2px solid #0040ff;
 }
 
 .delete-btn:hover {
   color: #ff0000;
   text-decoration: underline;
-  border-color: #ff0000;
+  border: 2px solid #ff0000;
 }
 
 /* ----- Footer ----- */

@@ -43,9 +43,14 @@ header nav a {
   transition: all 0.3s ease;
 }
 
-header nav a:hover, nav a.active {
+header nav a:hover{
   background: #000;
   transform: translateY(-2px);
+}
+
+nav a.active{
+  background: #000;
+  transform: none;
 }
 
 header .user-info {
@@ -85,7 +90,7 @@ header .logout-btn:hover {
 }
 
 h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 28px;
   margin-bottom: 30px;
   color: #1c1b1b;
@@ -132,6 +137,7 @@ textarea {
 }
 
 .update-btn {
+  font-family: 'Times New Roman', Times, serif;
   background-color: #966037;
   color: #fff;
   font-weight: bold;
