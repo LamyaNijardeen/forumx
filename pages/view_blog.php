@@ -39,6 +39,7 @@ if (!$post) {
       <a href="home.php">Home</a>
       <a href="about.php">About us</a>
       <a href="create_blog.php">Write</a>
+      <a href="profile.php">My Profile</a>
     </nav>
   </div>
 

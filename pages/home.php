@@ -46,6 +46,8 @@ if ($q !== '') {
       <a href="home.php" class="active">Home</a>
       <a href="about.php">About us</a>
       <a href="create_blog.php">Write</a>
+      <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+
     </nav>
   </div>
   <div class="user-info">
@@ -58,9 +60,7 @@ if ($q !== '') {
   <div class="search-container">
     <form method="GET" action="">
       <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($q); ?>" >
-    <button type="submit" title="Search">
-<span>🔍</span>
-      </button>
+    <button type="submit" title="Search">🔍</button>
     </form>
   </div>
 <main>

@@ -94,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="home.php">Home</a>
         <a href="about.php">About us</a>
         <a href="create_blog.php" class="active">Write</a>
+        <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
       </nav>
     </div>
 

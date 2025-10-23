@@ -21,45 +21,96 @@ if (!$profile_user) {
 }
 
 // Fetch posts by this user
-$stmt = $conn->prepare("SELECT id, title, content, created_at, image_path FROM blogPost WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->bind_param('i', $profile_id);
+$search = trim($_GET['q'] ?? '');
+if ($search) {
+    $query = "SELECT id, title, created_at, image_path 
+              FROM blogPost 
+              WHERE user_id = ? AND title LIKE CONCAT('%', ?, '%') 
+              ORDER BY created_at DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('is', $profile_id, $search);
+} else {
+    $query = "SELECT id, title, created_at, image_path 
+              FROM blogPost 
+              WHERE user_id = ? 
+              ORDER BY created_at DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $profile_id);
+}
 $stmt->execute();
 $res = $stmt->get_result();
 $posts = $res->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 ?>
-<?php include __DIR__ . '/../includes/header.php'; ?>
 
-<div class="layout">
-  <div class="main">
-    <h2>Posts by <?php echo htmlspecialchars($profile_user['username']); ?></h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php echo htmlspecialchars($profile_user['username']); ?> - ForumX</title>
+  <link rel="stylesheet" href="../assets/css/profile.css">
+</head>
+<body>
 
-    <?php if (empty($posts)): ?>
-      <div class="card"><p>No posts yet.</p></div>
-    <?php else: ?>
-      <?php foreach ($posts as $post): ?>
-        <article class="card">
-          <?php if (!empty($post['image_path'])): ?>
-            <img class="card-image" src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="">
-          <?php endif; ?>
-          <h3><a href="/forumx/pages/view_blog.php?id=<?php echo $post['id']; ?>"><?php echo htmlspecialchars($post['title']); ?></a></h3>
-          <div class="meta"><?php echo htmlspecialchars($post['created_at']); ?></div>
-          <div class="excerpt"><?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 220))); ?>...</div>
-        </article>
-      <?php endforeach; ?>
-    <?php endif; ?>
+  <header>
+    <div class="left-section">
+      <div class="logo">ForumX</div>
+      <nav>
+        <a href="home.php" class="nav-btn">Home</a>
+        <a href="about.php" class="nav-btn">About</a>
+        <a href="create_blog.php" class="nav-btn">Write</a>
+        <a href="profile.php?user_id=<?php echo $user['id']; ?>" class="nav-btn active">My Profile</a>
+      </nav>
+    </div>
+    <div class="user-info">
+      <span>Hello, <?php echo htmlspecialchars($user['username']); ?></span>
+      <div class="separator"></div>
+      <a href="../pages/logout.php" class="logout-btn">Logout</a>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <form method="get" action="">
+      <input type="hidden" name="user_id" value="<?php echo $profile_id; ?>">
+      <input type="text" name="q" placeholder="Search by topic..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>">
+      <button type="submit">🔍</button>
+    </form>
   </div>
 
-  <aside class="sidebar">
-    <div class="profile-card">
-      <h3>User Info</h3>
-      <p>Username: <?php echo htmlspecialchars($profile_user['username']); ?></p>
-      <p>Email: <?php echo htmlspecialchars($profile_user['email']); ?></p>
-      <?php if ($user && $user['id'] === $profile_user['id']): ?>
-        <p><a href="/forumx/pages/create_blog.php">Create a new post</a></p>
-      <?php endif; ?>
-    </div>
-  </aside>
-</div>
+  <main class="profile-content">
+    <h2><?php echo htmlspecialchars($profile_user['username']); ?>’s Blogs</h2>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php if (empty($posts)): ?>
+      <p class="no-posts">No posts yet.</p>
+    <?php else: ?>
+      <div class="blog-grid">
+        <?php foreach ($posts as $post): ?>
+          <a href="view_blog.php?id=<?php echo $post['id']; ?>" class="blog-link">
+            <div class="blog-card">
+              <?php if (!empty($post['image_path'])): ?>
+                <div class="blog-image">
+                  <img src="../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog Image">
+                </div>
+              <?php endif; ?>
+
+              <div class="blog-details">
+                <h3><?php echo htmlspecialchars($post['title']); ?></h3>
+                <div class="meta">
+                  <?php echo date('F j, Y', strtotime($post['created_at'])); ?>
+                  <span class="time"><?php echo date('H:i', strtotime($post['created_at'])); ?></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+  </main>
+
+  <footer class="footer">
+    © 2025 ForumX — A community to share ideas.
+  </footer>
+
+</body>
+</html>
