@@ -39,7 +39,7 @@ if (!$post) {
       <a href="home.php">Home</a>
       <a href="about.php">About us</a>
       <a href="create_blog.php">Write</a>
-      <a href="profile.php">My Profile</a>
+      <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
     </nav>
   </div>
 
@@ -57,7 +57,7 @@ if (!$post) {
             <div class="post-image">
                 <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Post Image">
             </div>
-        <?php endif; ?> <!-- 👈 Removed the placeholder completely -->
+        <?php endif; ?> 
 
         <h2 class="post-title"><?php echo htmlspecialchars($post['title']); ?></h2>
 

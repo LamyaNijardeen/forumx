@@ -1,5 +1,4 @@
 <?php
-// pages/logout.php
 session_start();
 
 // Remove all session data

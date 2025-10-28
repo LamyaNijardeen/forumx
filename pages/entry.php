@@ -4,7 +4,6 @@ require_once __DIR__ . '/../includes/auth.php';
 
 $user = current_user();
 
-// if logged in, skip entry and go to home
 if ($user) {
     header('Location: home.php');
     exit;
