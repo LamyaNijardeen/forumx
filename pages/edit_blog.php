@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $upd = $conn->prepare("UPDATE blogPost SET title=?, content=?, image_path=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
             $upd->bind_param('sssi', $title, $content, $image_path, $post_id);
             if ($upd->execute()) {
-                header('Location: /view_blog.php?id=' . (int)$post_id);
+                header('Location: ../pages/view_blog.php?id=' . (int)$post_id);
                 exit;
             } else {
                 $errors[] = 'DB error: ' . htmlspecialchars($conn->error);
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>ForumX | Create Blog</title>
-<link rel="stylesheet" href="/forumx/assets/css/edit_blog.css">
+<link rel="stylesheet" href="../assets/css/edit_blog.css">
 </head>
 <body>
   <!-- HEADER -->
@@ -91,17 +91,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="left-section">
       <div class="logo">ForumX</div>
       <nav>
-        <a href="home.php">Home</a>
-        <a href="about.php">About us</a>
-        <a href="create_blog.php" class="active">Write</a>
-        <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+        <a href="../pages/home.php">Home</a>
+        <a href="../pages/about.php">About us</a>
+        <a href="../pages/create_blog.php" class="active">Write</a>
+        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
       </nav>
     </div>
 
     <div class="user-info">
       Hello, <?php echo htmlspecialchars($user['username']); ?>
       <div class="separator"></div>
-      <a class="logout-btn" href="logout.php">Logout</a>
+      <a class="logout-btn" href="../pages/logout.php">Logout</a>
     </div>
   </header>
 <div class="edit-container">
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php if (!empty($post['image_path'])): ?>
             <p>Current image:</p>
-            <img src="/forumx/assets/images/<?= htmlspecialchars($post['image_path']); ?>" alt="Current image" class="current-img">
+            <img src="../assets/images/<?= htmlspecialchars($post['image_path']); ?>" alt="Current image" class="current-img">
         <?php endif; ?>
 
         <label for="image">Replace image (optional)</label>

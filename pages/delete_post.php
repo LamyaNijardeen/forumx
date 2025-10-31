@@ -45,7 +45,7 @@ if ($del->execute()) {
         $path = __DIR__ . '/../assets/images/' . $post['image_path'];
         if (file_exists($path)) @unlink($path);
     }
-    header('Location: /home.php?deleted=1');
+    header('Location: ../pages//home.php?deleted=1');
     exit;
 } else {
     http_response_code(500);

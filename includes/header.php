@@ -1,7 +1,7 @@
 <?php
 // includes/header.php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../includes/auth.php';
 
 $user = current_user();
 $searchQuery = htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -12,7 +12,7 @@ $searchQuery = htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, '
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ForumX</title>
-  <link rel="stylesheet" href="/../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 

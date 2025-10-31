@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 $newId = $stmt->insert_id;
                 $stmt->close();
-                header('Location: /view_blog.php?id=' . (int)$newId);
+                header('Location: ../pages/view_blog.php?id=' . (int)$newId);
                 exit;
             } else {
                 $errors[] = 'Database error: ' . htmlspecialchars($conn->error);
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>ForumX | Create Blog</title>
-  <link rel="stylesheet" href="/../assets/css/create_blog.css">
+  <link rel="stylesheet" href="../assets/css/create_blog.css">
 </head>
 <body>
 
@@ -70,17 +70,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="left-section">
       <div class="logo">ForumX</div>
       <nav>
-        <a href="home.php">Home</a>
-        <a href="about.php">About us</a>
-        <a href="create_blog.php" class="active">Write</a>
-        <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+        <a href="../pages/home.php">Home</a>
+        <a href="../pages/about.php">About us</a>
+        <a href="../pages/create_blog.php" class="active">Write</a>
+        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
       </nav>
     </div>
 
     <div class="user-info">
       Hello, <?php echo htmlspecialchars($user['username']); ?>
       <div class="separator"></div>
-      <a class="logout-btn" href="logout.php">Logout</a>
+      <a class="logout-btn" href="../pages/logout.php">Logout</a>
     </div>
   </header>
 
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <aside class="sidebar">
-      <img src="/../assets/images/pen.png" alt="Pen icon">
+      <img src="../assets/images/pen.png" alt="Pen icon">
       <p>A minimal writing platform for sharing ideas</p>
       <p>Create an account and start publishing</p>
       <p>Search your interest by topics</p>

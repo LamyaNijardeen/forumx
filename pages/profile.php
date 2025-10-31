@@ -48,7 +48,7 @@ $stmt->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo htmlspecialchars($profile_user['username']); ?> - ForumX</title>
-  <link rel="stylesheet" href="/../assets/css/profile.css">
+  <link rel="stylesheet" href="../assets/css/profile.css">
 </head>
 <body>
 
@@ -56,16 +56,16 @@ $stmt->close();
     <div class="left-section">
       <div class="logo">ForumX</div>
       <nav>
-        <a href="home.php" class="nav-btn">Home</a>
-        <a href="about.php" class="nav-btn">About</a>
-        <a href="create_blog.php" class="nav-btn">Write</a>
-        <a href="profile.php?user_id=<?php echo $user['id']; ?>" class="nav-btn active">My Profile</a>
+        <a href="../pages/home.php" class="nav-btn">Home</a>
+        <a href="../pages/about.php" class="nav-btn">About</a>
+        <a href="../pages/create_blog.php" class="nav-btn">Write</a>
+        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>" class="nav-btn active">My Profile</a>
       </nav>
     </div>
     <div class="user-info">
       <span>Hello, <?php echo htmlspecialchars($user['username']); ?></span>
       <div class="separator"></div>
-      <a href="/logout.php" class="logout-btn">Logout</a>
+      <a href="../pages/logout.php" class="logout-btn">Logout</a>
     </div>
   </header>
 
@@ -85,11 +85,11 @@ $stmt->close();
     <?php else: ?>
       <div class="blog-grid">
         <?php foreach ($posts as $post): ?>
-          <a href="view_blog.php?id=<?php echo $post['id']; ?>" class="blog-link">
+          <a href="../pages/view_blog.php?id=<?php echo $post['id']; ?>" class="blog-link">
             <div class="blog-card">
               <?php if (!empty($post['image_path'])): ?>
                 <div class="blog-image">
-                  <img src="/../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog Image">
+                  <img src="../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog Image">
                 </div>
               <?php endif; ?>
 

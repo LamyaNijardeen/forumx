@@ -7,7 +7,7 @@ $user = current_user();
 
 // Redirect guest to entry page
 if (!$user) {
-    header('Location: entry.php');
+    header('Location: ../pages/entry.php');
     exit;
 }
 
@@ -36,22 +36,22 @@ if ($q !== '') {
 }
 ?>
 
-<link rel="stylesheet" href="/../assets/css/home.css">
+<link rel="stylesheet" href="../assets/css/home.css">
 
 <header>
   <div class="left-section">
     <div class="logo">ForumX</div>
     <nav>
-      <a href="home.php" class="active">Home</a>
-      <a href="about.php">About us</a>
-      <a href="create_blog.php">Write</a>
-      <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+      <a href="../pages/home.php" class="active">Home</a>
+      <a href="../pages/about.php">About us</a>
+      <a href="../pages/create_blog.php">Write</a>
+      <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
     </nav>
   </div>
   <div class="user-info">
     Hello, <?php echo htmlspecialchars($user['username']); ?>
     <div class="separator"></div>
-    <a class="logout-btn" href="logout.php">Logout</a>
+    <a class="logout-btn" href="../pages/logout.php">Logout</a>
   </div>
 </header>
   <!-- Search Bar -->
@@ -66,18 +66,18 @@ if ($q !== '') {
     <!-- Main Blog Feed -->
     <div class="main">
       <?php if (empty($posts)): ?>
-        <div class="card"><p>No posts found. <a href="create_blog.php">Create one now</a>.</p></div>
+        <div class="card"><p>No posts found. <a href="../pages/create_blog.php">Create one now</a>.</p></div>
       <?php else: ?>
         <?php foreach ($posts as $post): ?>
           <article class="card">
             <?php if (!empty($post['image_path'])): ?>
               <div class="image-wrapper">
-                <img src="/../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog image">
+                <img src="../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog image">
               </div>
             <?php endif; ?>
 
             <h2>
-              <a href="view_blog.php?id=<?php echo (int)$post['id']; ?>">
+              <a href="../pages/view_blog.php?id=<?php echo (int)$post['id']; ?>">
                 <?php echo htmlspecialchars($post['title']); ?>
               </a>
             </h2>
@@ -89,7 +89,7 @@ if ($q !== '') {
               <?php echo nl2br(htmlspecialchars(substr($post['content'], 0, 180))); ?>...
             </p>
             <div class="card-actions">
-              <a href="view_blog.php?id=<?php echo (int)$post['id']; ?>">Read more</a>
+              <a href="../pages/view_blog.php?id=<?php echo (int)$post['id']; ?>">Read more</a>
             </div>
           </article>
         <?php endforeach; ?>
@@ -98,7 +98,7 @@ if ($q !== '') {
 
     <!-- Sidebar -->
     <aside class="sidebar">
-      <img src="/../assets/images/pen.png" alt="Pen icon">
+      <img src="../assets/images/pen.png" alt="Pen icon">
       <p>A minimal writing platform for sharing ideas</p>
       <p>Create an account and start publishing</p>
       <p>Search your interest by topics</p>
@@ -106,7 +106,7 @@ if ($q !== '') {
       <p>Share your knowledge — we are here to see</p>
       <br>
       <p><strong>Start Today</strong></p>
-      <a href="create_blog.php">Write a story</a>
+      <a href="../pages/create_blog.php">Write a story</a>
       <p style="margin-top:1rem; font-size:0.85rem; color:#888;">© 2025 ForumX</p>
     </aside>
   </div>

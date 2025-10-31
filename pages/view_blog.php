@@ -27,7 +27,7 @@ if (!$post) {
 <head>
     <meta charset="UTF-8">
     <title>ForumX | View Blog</title>
-    <link rel="stylesheet" href="/../assets/css/view_blog.css">
+    <link rel="stylesheet" href="../assets/css/view_blog.css">
 </head>
 <body>
 
@@ -36,17 +36,17 @@ if (!$post) {
   <div class="left-section">
     <div class="logo">ForumX</div>
     <nav>
-      <a href="home.php">Home</a>
-      <a href="about.php">About us</a>
-      <a href="create_blog.php">Write</a>
-      <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+      <a href="../pages/home.php">Home</a>
+      <a href="../pages/about.php">About us</a>
+      <a href="../pages/create_blog.php">Write</a>
+      <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
     </nav>
   </div>
 
   <div class="user-info">
     Hello, <?php echo htmlspecialchars($user['username']); ?>
     <div class="separator"></div>
-    <a class="logout-btn" href="logout.php">Logout</a>
+    <a class="logout-btn" href="../pages/logout.php">Logout</a>
   </div>
 </header>
 
@@ -55,7 +55,7 @@ if (!$post) {
     <div class="post-card">
         <?php if (!empty($post['image_path'])): ?>
             <div class="post-image">
-                <img src="/../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Post Image">
+                <img src="../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Post Image">
             </div>
         <?php endif; ?> 
 
@@ -71,8 +71,8 @@ if (!$post) {
 
         <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
             <div class="post-actions">
-                <a href="/edit_blog.php?id=<?php echo $post['id']; ?>" class="edit-btn">Edit</a>
-                <form action="/delete_post.php" method="POST" class="delete-form" onsubmit="return confirm('Delete this post?');">
+                <a href="../pages/edit_blog.php?id=<?php echo $post['id']; ?>" class="edit-btn">Edit</a>
+                <form action="../pages/delete_post.php" method="POST" class="delete-form" onsubmit="return confirm('Delete this post?');">
                     <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
                     <button type="submit" class="delete-btn">Delete</button>

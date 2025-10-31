@@ -8,7 +8,7 @@ require_once '/../includes/auth.php';
 
 // Redirect if logged in
 if (is_logged_in()) {
-    header('Location: home.php');
+    header('Location: ../pages/home.php');
     exit;
 }
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                header('Location: home.php');
+                header('Location: ../pages/home.php');
                 exit;
             } else {
                 $errors[] = "Invalid email or password.";
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<link rel="stylesheet" href="/../assets/css/login.css">
+<link rel="stylesheet" href="../assets/css/login.css">
 
 <header class="login-header">
   <div class="logo">ForumX</div>
-  <a href="/about.php" class="about-btn">About us</a>
+  <a href="../pages/about.php" class="about-btn">About us</a>
 </header>
 
 <main class="login-container">
@@ -75,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit" class="submit-btn">Login</button>
   </form>
 
-  <p class="register-text">Don’t have an account? <a href="register.php">Register here</a></p>
+  <p class="register-text">Don’t have an account? <a href="../pages/register.php">Register here</a></p>
 
-  <img src="/../assets/images/pen.png" alt="Pen" class="pen-img">
+  <img src="../assets/images/pen.png" alt="Pen" class="pen-img">
 </main>
 
 <footer class="footer">

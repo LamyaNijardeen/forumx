@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/config.php';
 
 // Redirect if logged in
 if (isset($_SESSION['user_id'])) {
-    header('Location: /home.php');
+    header('Location: ../pages/home.php');
     exit;
 }
 
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ins->bind_param("sss", $username, $email, $hashed);
         if ($ins->execute()) {
             unset($_SESSION['csrf_token']);
-            header('Location: /login.php?registered=1');
+            header('Location: ../pages/login.php?registered=1');
             exit;
         } else $errors[] = "Something went wrong. Try again later.";
         $ins->close();
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register — ForumX</title>
-<link rel="stylesheet" href="/../assets/css/register.css">
+<link rel="stylesheet" href="../assets/css/register.css">
 </head>
 <body>
 
@@ -104,9 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit" class="submit-btn">Create account</button>
   </form>
 
-  <p class="login-text">Already have an account? <a href="/login.php">Login here.</a></p>
+  <p class="login-text">Already have an account? <a href="../pages/login.php">Login here.</a></p>
 
-  <img src="/../assets/images/pen.png" alt="Pen" class="pen-img">
+  <img src="../assets/images/pen.png" alt="Pen" class="pen-img">
 </main>
 
 <footer class="footer">

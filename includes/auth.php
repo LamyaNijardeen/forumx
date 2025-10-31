@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/config.php'; // DB connection
+require_once __DIR__ . '/../includes/config.php'; // DB connection
 
 /**
  * Check if a user is logged in.
@@ -36,7 +36,7 @@ function current_user(): ?array {
  */
 function require_login(): void {
     if (!is_logged_in()) {
-        header('Location: login.php');
+        header('Location: ../pages/login.php');
         exit;
     }
 }
