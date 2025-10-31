@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/auth.php';
-require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 $user = current_user();
 $profile_id = (int)($_GET['user_id'] ?? 0);
@@ -48,7 +48,7 @@ $stmt->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo htmlspecialchars($profile_user['username']); ?> - ForumX</title>
-  <link rel="stylesheet" href="/assets/css/profile.css">
+  <link rel="stylesheet" href="/../assets/css/profile.css">
 </head>
 <body>
 
@@ -65,7 +65,7 @@ $stmt->close();
     <div class="user-info">
       <span>Hello, <?php echo htmlspecialchars($user['username']); ?></span>
       <div class="separator"></div>
-      <a href="/pages/logout.php" class="logout-btn">Logout</a>
+      <a href="/logout.php" class="logout-btn">Logout</a>
     </div>
   </header>
 
@@ -89,7 +89,7 @@ $stmt->close();
             <div class="blog-card">
               <?php if (!empty($post['image_path'])): ?>
                 <div class="blog-image">
-                  <img src="/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog Image">
+                  <img src="/../assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog Image">
                 </div>
               <?php endif; ?>
 

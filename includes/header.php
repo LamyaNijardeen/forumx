@@ -12,7 +12,7 @@ $searchQuery = htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, '
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ForumX</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/../assets/css/style.css">
 </head>
 <body>
 
@@ -21,16 +21,16 @@ $searchQuery = htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, '
     <!-- Brand / Home -->
     <div class="fx-brand">
       <?php if ($user): ?>
-        <a href="/pages/home.php">Home</a>
+        <a href="/../pages/home.php">Home</a>
       <?php else: ?>
-        <a href="/pages/entry.php">ForumX</a>
+        <a href="/../pages/entry.php">ForumX</a>
       <?php endif; ?>
     </div>
 
     <!-- Search (only visible if logged in) -->
     <?php if ($user): ?>
       <div class="fx-search">
-        <form action="/pages/home.php" method="GET" role="search" class="fx-search-form">
+        <form action="/../pages/home.php" method="GET" role="search" class="fx-search-form">
           <input type="text" name="q" placeholder="Search posts by title..." value="<?php echo $searchQuery; ?>" aria-label="Search posts by title">
           <button type="submit">Search</button>
         </form>
@@ -41,20 +41,20 @@ $searchQuery = htmlspecialchars($_GET['q'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, '
     <nav class="fx-nav" role="navigation">
       <?php if ($user): ?>
         <div class="fx-nav-left">
-          <a href="/pages/about.php">About</a>
-          <a href="/pages/create_blog.php">Write</a>
+          <a href="/../pages/about.php">About</a>
+          <a href="/../pages/create_blog.php">Write</a>
         </div>
         <div class="fx-nav-right">
           <span class="fx-hello">Hello, <strong><?php echo htmlspecialchars($user['username'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></strong></span>
-          <a href="/pages/logout.php" class="fx-logout">Logout</a>
+          <a href="/../pages/logout.php" class="fx-logout">Logout</a>
         </div>
       <?php else: ?>
         <div class="fx-nav-left">
-          <a href="/pages/about.php">About</a>
-          <a href="/pages/register.php">Write</a>
+          <a href="/../pages/about.php">About</a>
+          <a href="/../pages/register.php">Write</a>
         </div>
         <div class="fx-nav-right">
-          <a href="/pages/register.php" class="fx-cta">Get Started</a>
+          <a href="/../pages/register.php" class="fx-cta">Get Started</a>
         </div>
       <?php endif; ?>
     </nav>

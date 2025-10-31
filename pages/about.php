@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/auth.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About ForumX</title>
-  <link rel="stylesheet" href="/assets/css/about.css">
+  <link rel="stylesheet" href="/../assets/css/about.css">
 </head>
 <body>
 
@@ -40,7 +40,7 @@ require_once __DIR__ . '/includes/auth.php';
       <a href="create_blog.php" class="create-post-link">Create your first post</a>
     </section>
 
-    <img src="/assets/images/pen.png" alt="Pen" class="pen-img">
+    <img src="/../assets/images/pen.png" alt="Pen" class="pen-img">
   </main>
 
   <footer class="footer">
