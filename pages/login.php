@@ -2,9 +2,9 @@
 // pages/login.php
 session_start();
 
-require_once '../includes/config.php';
-require_once '../includes/csrf.php';
-require_once '../includes/auth.php';
+require_once '/includes/config.php';
+require_once '/includes/csrf.php';
+require_once '/includes/auth.php';
 
 // Redirect if logged in
 if (is_logged_in()) {
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<link rel="stylesheet" href="../assets/css/login.css">
+<link rel="stylesheet" href="/assets/css/login.css">
 
 <header class="login-header">
   <div class="logo">ForumX</div>
-  <a href="/forumx/pages/about.php" class="about-btn">About us</a>
+  <a href="/pages/about.php" class="about-btn">About us</a>
 </header>
 
 <main class="login-container">
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <p class="register-text">Don’t have an account? <a href="register.php">Register here</a></p>
 
-  <img src="../assets/images/pen.png" alt="Pen" class="pen-img">
+  <img src="/assets/images/pen.png" alt="Pen" class="pen-img">
 </main>
 
 <footer class="footer">

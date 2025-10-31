@@ -1,4 +1,4 @@
 <?php
 // index.php
-header('Location: /forumx/pages/home.php');
+header('Location: /pages/entry.php');
 exit;

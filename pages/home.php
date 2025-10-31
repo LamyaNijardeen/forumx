@@ -1,8 +1,7 @@
 <?php
-// pages/home.php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 $user = current_user();
 
@@ -37,7 +36,7 @@ if ($q !== '') {
 }
 ?>
 
-<link rel="stylesheet" href="/forumx/assets/css/home.css">
+<link rel="stylesheet" href="/assets/css/home.css">
 
 <header>
   <div class="left-section">
@@ -47,7 +46,6 @@ if ($q !== '') {
       <a href="about.php">About us</a>
       <a href="create_blog.php">Write</a>
       <a href="profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
-
     </nav>
   </div>
   <div class="user-info">
@@ -74,7 +72,7 @@ if ($q !== '') {
           <article class="card">
             <?php if (!empty($post['image_path'])): ?>
               <div class="image-wrapper">
-                <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog image">
+                <img src="/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Blog image">
               </div>
             <?php endif; ?>
 
@@ -100,7 +98,7 @@ if ($q !== '') {
 
     <!-- Sidebar -->
     <aside class="sidebar">
-      <img src="/forumx/assets/images/pen.png" alt="Pen icon">
+      <img src="/assets/images/pen.png" alt="Pen icon">
       <p>A minimal writing platform for sharing ideas</p>
       <p>Create an account and start publishing</p>
       <p>Search your interest by topics</p>

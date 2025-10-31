@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 require_login();
 $user = current_user();
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $ext = $allowed[$fileType];
                 $filename = uniqid('img_', true) . '.' . $ext;
-                $targetDir = __DIR__ . '/../assets/images/';
+                $targetDir = __DIR__ . '/assets/images/';
                 if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
                 $targetPath = $targetDir . $filename;
 
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $upd = $conn->prepare("UPDATE blogPost SET title=?, content=?, image_path=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
             $upd->bind_param('sssi', $title, $content, $image_path, $post_id);
             if ($upd->execute()) {
-                header('Location: /forumx/pages/view_blog.php?id=' . (int)$post_id);
+                header('Location: /pages/view_blog.php?id=' . (int)$post_id);
                 exit;
             } else {
                 $errors[] = 'DB error: ' . htmlspecialchars($conn->error);

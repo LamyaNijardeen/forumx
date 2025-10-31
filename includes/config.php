@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // includes/config.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -12,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
  * DB_PASS=
  * DB_NAME=forumx_db
  */
-$envPath = __DIR__ . '/../.env';
+$envPath = __DIR__ . '/.env';
 $env = [];
 if (file_exists($envPath)) {
     $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

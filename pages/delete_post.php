@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 require_login();
 $user = current_user();
@@ -42,10 +42,10 @@ $del->bind_param('i', $post_id);
 if ($del->execute()) {
     // remove image file if exists
     if (!empty($post['image_path'])) {
-        $path = __DIR__ . '/../assets/images/' . $post['image_path'];
+        $path = __DIR__ . '/assets/images/' . $post['image_path'];
         if (file_exists($path)) @unlink($path);
     }
-    header('Location: /forumx/pages/home.php?deleted=1');
+    header('Location: /pages/home.php?deleted=1');
     exit;
 } else {
     http_response_code(500);

@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 require_login();
 $user = current_user();
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $ext = $allowed[$fileType];
                 $filename = uniqid('img_', true) . '.' . $ext;
-                $targetDir = __DIR__ . '/../assets/images/';
+                $targetDir = __DIR__ . '/assets/images/';
                 if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
                 $targetPath = $targetDir . $filename;
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 $newId = $stmt->insert_id;
                 $stmt->close();
-                header('Location: /forumx/pages/view_blog.php?id=' . (int)$newId);
+                header('Location: /pages/view_blog.php?id=' . (int)$newId);
                 exit;
             } else {
                 $errors[] = 'Database error: ' . htmlspecialchars($conn->error);

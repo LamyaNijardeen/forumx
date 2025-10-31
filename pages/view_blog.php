@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 $user = current_user();
 $post_id = (int)($_GET['id'] ?? 0);
@@ -27,7 +27,7 @@ if (!$post) {
 <head>
     <meta charset="UTF-8">
     <title>ForumX | View Blog</title>
-    <link rel="stylesheet" href="/forumx/assets/css/view_blog.css">
+    <link rel="stylesheet" href="/assets/css/view_blog.css">
 </head>
 <body>
 
@@ -55,7 +55,7 @@ if (!$post) {
     <div class="post-card">
         <?php if (!empty($post['image_path'])): ?>
             <div class="post-image">
-                <img src="/forumx/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Post Image">
+                <img src="/assets/images/<?php echo htmlspecialchars($post['image_path']); ?>" alt="Post Image">
             </div>
         <?php endif; ?> 
 
@@ -71,8 +71,8 @@ if (!$post) {
 
         <?php if ($user && ($user['id'] == $post['user_id'] || is_admin())): ?>
             <div class="post-actions">
-                <a href="/forumx/pages/edit_blog.php?id=<?php echo $post['id']; ?>" class="edit-btn">Edit</a>
-                <form action="/forumx/pages/delete_post.php" method="POST" class="delete-form" onsubmit="return confirm('Delete this post?');">
+                <a href="/pages/edit_blog.php?id=<?php echo $post['id']; ?>" class="edit-btn">Edit</a>
+                <form action="/pages/delete_post.php" method="POST" class="delete-form" onsubmit="return confirm('Delete this post?');">
                     <input type="hidden" name="post_id" value="<?php echo (int)$post['id']; ?>">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
                     <button type="submit" class="delete-btn">Delete</button>
