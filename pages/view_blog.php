@@ -7,7 +7,7 @@ $user = current_user();
 $post_id = (int)($_GET['id'] ?? 0);
 
 $stmt = $conn->prepare("SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.id AS user_id, u.username 
-                        FROM blogPost b 
+                        FROM blogpost b 
                         JOIN user u ON b.user_id = u.id 
                         WHERE b.id = ?");
 $stmt->bind_param('i', $post_id);

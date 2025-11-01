@@ -2,9 +2,9 @@
 // pages/login.php
 session_start();
 
-require_once '/../includes/config.php';
-require_once '/../includes/csrf.php';
-require_once '/../includes/auth.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/auth.php';
 
 // Redirect if logged in
 if (is_logged_in()) {

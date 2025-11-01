@@ -17,7 +17,7 @@ $q = trim((string)($_GET['q'] ?? ''));
 if ($q !== '') {
     $like = '%' . $q . '%';
     $stmt = $conn->prepare("SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.username, b.user_id
-                            FROM blogPost b
+                            FROM blogpost b
                             JOIN user u ON b.user_id = u.id
                             WHERE b.title LIKE ?
                             ORDER BY b.created_at DESC");
@@ -28,7 +28,7 @@ if ($q !== '') {
     $stmt->close();
 } else {
     $sql = "SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.username, b.user_id
-            FROM blogPost b
+            FROM blogpost b
             JOIN user u ON b.user_id = u.id
             ORDER BY b.created_at DESC";
     $res = $conn->query($sql);
@@ -116,5 +116,5 @@ if ($q !== '') {
   © 2025 ForumX — A community to share ideas.
 </footer>
 
-<!-- Font Awesome for search icon -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Font Awesome for search icon 
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>-->

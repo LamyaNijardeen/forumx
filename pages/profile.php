@@ -23,14 +23,14 @@ if (!$profile_user) {
 $search = trim($_GET['q'] ?? '');
 if ($search) {
     $query = "SELECT id, title, created_at, image_path 
-              FROM blogPost 
+              FROM blogpost 
               WHERE user_id = ? AND title LIKE CONCAT('%', ?, '%') 
               ORDER BY created_at DESC";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('is', $profile_id, $search);
 } else {
     $query = "SELECT id, title, created_at, image_path 
-              FROM blogPost 
+              FROM blogpost 
               WHERE user_id = ? 
               ORDER BY created_at DESC";
     $stmt = $conn->prepare($query);
