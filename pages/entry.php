@@ -16,6 +16,7 @@ if ($user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to ForumX</title>
     <link rel="stylesheet" href="../assets/css/entry.css">
+<link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 <body>
 

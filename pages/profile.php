@@ -49,6 +49,7 @@ $stmt->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo htmlspecialchars($profile_user['username']); ?> - ForumX</title>
   <link rel="stylesheet" href="../assets/css/profile.css">
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 <body>
 
@@ -57,9 +58,9 @@ $stmt->close();
       <div class="logo">ForumX</div>
       <nav>
         <a href="../pages/home.php" class="nav-btn">Home</a>
-        <a href="../pages/about.php" class="nav-btn">About</a>
+        <a href="../pages/about.php" class="nav-btn">About us</a>
         <a href="../pages/create_blog.php" class="nav-btn">Write</a>
-        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>" class="nav-btn active">My Profile</a>
+        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>" class=" nav-btn active">My Profile</a>
       </nav>
     </div>
     <div class="user-info">

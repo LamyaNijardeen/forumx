@@ -69,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register — ForumX</title>
 <link rel="stylesheet" href="../assets/css/register.css">
+<link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 <body>
 

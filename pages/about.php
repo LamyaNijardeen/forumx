@@ -9,6 +9,7 @@ require_once __DIR__ . '/../includes/auth.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About ForumX</title>
   <link rel="stylesheet" href="../assets/css/about.css">
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 <body>
 

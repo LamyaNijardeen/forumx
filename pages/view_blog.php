@@ -28,6 +28,7 @@ if (!$post) {
     <meta charset="UTF-8">
     <title>ForumX | View Blog</title>
     <link rel="stylesheet" href="../assets/css/view_blog.css">
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 <body>
 
@@ -35,12 +36,12 @@ if (!$post) {
 <header>
   <div class="left-section">
     <div class="logo">ForumX</div>
-    <nav>
-      <a href="../pages/home.php">Home</a>
-      <a href="../pages/about.php">About us</a>
-      <a href="../pages/create_blog.php">Write</a>
-      <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
-    </nav>
+      <nav>
+        <a href="../pages/home.php">Home</a>
+        <a href="../pages/about.php">About us</a>
+        <a href="../pages/create_blog.php">Write</a>
+        <a href="../pages/profile.php?user_id=<?php echo $user['id']; ?>">My Profile</a>
+      </nav>
   </div>
 
   <div class="user-info">

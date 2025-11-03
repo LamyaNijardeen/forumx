@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <link rel="stylesheet" href="../assets/css/login.css">
-
+<link rel="icon" type="image/png" href="../assets/images/favicon.png">
 <header class="login-header">
   <div class="logo">ForumX</div>
   <a href="../pages/about.php" class="about-btn">About us</a>
