@@ -13,7 +13,7 @@ if ($post_id <= 0) {
     exit('Invalid id');
 }
 
-$stmt = $conn->prepare("SELECT * FROM blogPost WHERE id = ?");
+$stmt = $conn->prepare("SELECT * FROM blogpost WHERE id = ?");
 $stmt->bind_param('i', $post_id);
 $stmt->execute();
 $res = $stmt->get_result();
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
-            $upd = $conn->prepare("UPDATE blogPost SET title=?, content=?, image_path=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
+            $upd = $conn->prepare("UPDATE blogpost SET title=?, content=?, image_path=?, updated_at=CURRENT_TIMESTAMP WHERE id=?");
             $upd->bind_param('sssi', $title, $content, $image_path, $post_id);
             if ($upd->execute()) {
                 header('Location: ../pages/view_blog.php?id=' . (int)$post_id);

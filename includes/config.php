@@ -1,19 +1,12 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-// includes/config.php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-/*
- * Load .env-like file (simple key=val parser). Put .env in project root.
- * Example .env:
- * DB_HOST=localhost
- * DB_USER=root
- * DB_PASS=
- * DB_NAME=forumx_db
- */
+
 $envPath = __DIR__ . '/../.env';
 $env = [];
 if (file_exists($envPath)) {
@@ -25,7 +18,7 @@ if (file_exists($envPath)) {
     }
 }
 
-// Fallback defaults
+//Datbase access
 $dbHost = $env['DB_HOST'] ?? 'localhost';
 $dbUser = $env['DB_USER'] ?? 'root';
 $dbPass = $env['DB_PASS'] ?? '';
@@ -34,15 +27,11 @@ $dbName = $env['DB_NAME'] ?? 'forumx_db';
 // create mysqli connection
 $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 if ($conn->connect_error) {
-    // In dev show error; in prod you would log and show a generic message
     die('DB Connection failed: ' . htmlspecialchars($conn->connect_error));
 }
 $conn->set_charset('utf8mb4');
 
-/**
- * Small helper to prepare & run SQL safely when needed.
- * Returns mysqli_stmt or false.
- */
+
 function db_prepare($sql) {
     global $conn;
     return $conn->prepare($sql);

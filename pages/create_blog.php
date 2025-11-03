@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
-            $stmt = $conn->prepare("INSERT INTO blogPost (user_id, title, content, image_path) VALUES (?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO blogpost (user_id, title, content, image_path) VALUES (?, ?, ?, ?)");
             $stmt->bind_param('isss', $user['id'], $title, $content, $image_path);
             if ($stmt->execute()) {
                 $newId = $stmt->insert_id;
