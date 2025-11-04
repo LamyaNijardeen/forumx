@@ -35,7 +35,7 @@ if ($q !== '') {
     $posts = $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
 }
 ?>
-
+<!--.................FRONT END...................-->
 <link rel="stylesheet" href="../assets/css/home.css">
 <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 <header>

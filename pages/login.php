@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
+<!--................FRONT END................-->
 <link rel="stylesheet" href="../assets/css/login.css">
 <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 <header class="login-header">
