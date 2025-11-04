@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
 ?>
+<!--..................FRONT END........................-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

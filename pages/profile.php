@@ -41,7 +41,7 @@ $res = $stmt->get_result();
 $posts = $res->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 ?>
-
+<!--............FRONT END.....................-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -21,7 +21,7 @@ if (!$post) {
     exit;
 }
 ?>
-
+<!--............FRONT END..............-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
