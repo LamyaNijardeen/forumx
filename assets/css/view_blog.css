@@ -1,23 +1,28 @@
-/* ----- General ----- */
-body {
-  font-family: 'Times New Roman', Times, serif;
+* {
   margin: 0;
-  background-color: #fffaf6;
-  color: #222;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Header */
 header {
-  background-color: #faeee0;
-  border-bottom: 1px solid #c8b9a0;
+  background-color: #091b40;
+  border-bottom: 1px solid #e5e5e5;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 3rem;
-  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: nowrap;
 }
 
 header .left-section {
@@ -29,7 +34,7 @@ header .left-section {
 header .logo {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 header nav {
@@ -39,81 +44,104 @@ header nav {
 }
 
 header nav a {
-  background: #966037;
-  color: #fff;
-  text-decoration: none;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+text-decoration: none; 
+color: #ffffff; 
+font-weight: 500; 
+transition: color 0.3s ease;
 }
 
 header nav a:hover {
-  background: #000;
-  transform: translateY(-2px);
+  color: #c8d3ff;
+  text-decoration: underline;
+}
+header nav a.active {
+  color: #c8d3ff;
+  font-weight: 600;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
 }
 
 header .user-info {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 1rem;
+  color: #ffffff;
 }
 
 header .separator {
-  height: 20px;
-  width: 2px;
-  background-color: #966037;
+  height: 22px;
+  width: 1px;
+  background-color: #ffffff;
 }
 
 header .logout-btn {
-  background: #966037;
-  color: #fff;
-  border-radius: 20px;
+  background: #c8d3ff;
+  color: #000000;
+  border-radius: 4px;
   text-decoration: none;
-  padding: 0.4rem 1rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
 header .logout-btn:hover {
-  background: #000;
-  transform: translateY(-2px);
+  background: #35639f;
+  color: #ffffff;
 }
 
-/* ----- Search Bar ----- */
 .search-bar {
-  display: flex;
-  justify-content: center;
-  margin: 30px 0 20px;
+  display: inline-flex;
+  align-items: stretch;
 }
 
 .search-bar input {
-  width: 260px;
-  padding: 6px 12px;
-  border-radius: 20px 0 0 20px;
-  border: 1px solid #b58b69;
-  font-style: italic;
+  padding: 10px 14px;
+  border: 1px solid #091b40;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+  width: 250px;
+  height: 38px;
+  font-size: 0.95rem;
 }
 
 .search-bar button {
-  background-color: #966037;
-  border: none;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 0 20px 20px 0;
+  border: 1px solid #091b40;
+  border-radius: 0 4px 4px 0;
+  background: #ffffff;
   cursor: pointer;
+  height: 38px;
+  padding: 0 16px;
   transition: 0.3s ease;
 }
 
 .search-bar button:hover {
-  background-color: #000;
+  background: #35639f;
+  color: #ffffff;
+}
+.post-meta img.profile-mini {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 8px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4d4d4d;
+  margin-bottom: 20px;
 }
 
-/* ----- Blog View ----- */
+
 .view-container {
   display: flex;
   justify-content: center;
@@ -182,7 +210,7 @@ header .logout-btn:hover {
 
 .edit-btn,
 .delete-btn {
-  border: 2px solid rgb(117, 70, 7);
+  border: 2px solid #35639f;
   border-radius: 8px;
   font-size: 14px;
   text-decoration: none;
@@ -191,29 +219,29 @@ header .logout-btn:hover {
   cursor: pointer;
   transition: 0.3s;
   font-weight: bolder;
-  color: rgb(126, 81, 8);
+  color: #35639f;
 }
 
 .edit-btn:hover {
-  color: #0040ff;
+  color: #ffffff;
   text-decoration: underline;
-  border: 2px solid #0040ff;
+  background-color: #35639f;
 }
 
 .delete-btn:hover {
-  color: #ff0000;
+  color: #ffffff;
   text-decoration: underline;
-  border: 2px solid #ff0000;
+  border: 2px solid #ba2323;
+  background-color: #ba2323;
 }
-
-/* ----- Footer ----- */
 footer {
-  border-top: 1px solid hsl(33, 29%, 76%);
+  margin-top: auto;
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
   text-align: center;
-  padding: 1rem 0;
+  padding: 1rem;
   font-size: 0.9rem;
-  color: #333;
-  background-color: #fffaf6;
+  color: #555;
 }
 
 /* Responsive */
@@ -224,5 +252,11 @@ footer {
 
   .search-bar {
     display: none;
+  }
+}
+@media (max-width: 768px) {
+  .meta img.profile-mini {
+    width: 24px;
+    height: 24px;
   }
 }

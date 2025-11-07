@@ -1,21 +1,16 @@
 <?php
-// includes/auth.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once __DIR__ . '/../includes/config.php'; // DB connection
 
-/**
- * Check if a user is logged in.
- */
+/* Check if a user is logged in.*/
 function is_logged_in(): bool {
     return !empty($_SESSION['user_id']);
 }
 
-/**
- * Return current logged-in user info as array, or null if not logged in.
- */
+/*Return current logged-in user info as array, or null if not logged in.*/
 function current_user(): ?array {
     global $conn;
     if (!is_logged_in()) return null;
@@ -41,9 +36,7 @@ function require_login(): void {
     }
 }
 
-/**
- * Check if current user is admin.
- */
+/* Check if current user is admin.*/
 function is_admin(): bool {
     $user = current_user();
     return $user && $user['role'] === 'admin';

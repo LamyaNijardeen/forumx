@@ -1,27 +1,38 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/csrf.php';
+// Securely include essential files
+require_once __DIR__ . '/../includes/config.php'; // DB connection
+require_once __DIR__ . '/../includes/auth.php';   // User session + permissions
+require_once __DIR__ . '/../includes/csrf.php';   // CSRF protection
 
+// Get the current logged-in user
 $user = current_user();
+
+// Get the blog post ID from the URL
 $post_id = (int)($_GET['id'] ?? 0);
 
-$stmt = $conn->prepare("SELECT b.id, b.title, b.content, b.created_at, b.image_path, u.id AS user_id, u.username 
-                        FROM blogpost b 
-                        JOIN user u ON b.user_id = u.id 
-                        WHERE b.id = ?");
+// Fetch post details + author info
+$stmt = $conn->prepare("
+    SELECT 
+        b.id, b.title, b.content, b.created_at, b.image_path, 
+        u.id AS user_id, u.username, u.profile_photo
+    FROM blogpost b 
+    JOIN user u ON b.user_id = u.id 
+    WHERE b.id = ?
+");
 $stmt->bind_param('i', $post_id);
 $stmt->execute();
 $res = $stmt->get_result();
 $post = $res->fetch_assoc();
 $stmt->close();
 
+// If post doesn’t exist, show message
 if (!$post) {
     echo "Post not found.";
     exit;
 }
 ?>
-<!--............FRONT END..............-->
+
+<!--FRONT END-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,12 +72,14 @@ if (!$post) {
         <?php endif; ?> 
 
         <h2 class="post-title"><?php echo htmlspecialchars($post['title']); ?></h2>
-
         <div class="post-meta">
-            By <span class="author"><?php echo htmlspecialchars($post['username']); ?></span>
-            <span class="dot">|</span>
-            <span class="date"><?php echo htmlspecialchars(date("F j, Y", strtotime($post['created_at']))); ?></span>
-        </div>
+        <img src="../assets/profile_photos/<?php echo htmlspecialchars($post['profile_photo'] ?: 'default.png'); ?>" 
+       alt="Profile Photo" class="profile-mini">
+       <span class="author"><?php echo htmlspecialchars($post['username']); ?></span>
+       <span class="dot">|</span>
+       <span class="date"><?php echo htmlspecialchars(date("F j, Y", strtotime($post['created_at']))); ?></span>
+</div>
+
 
         <p class="post-text"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
 

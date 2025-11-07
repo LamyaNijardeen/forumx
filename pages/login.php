@@ -1,12 +1,13 @@
 <?php
-// pages/login.php
+//  Start session
 session_start();
 
+//  Include essential backend files
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../includes/auth.php';
 
-// Redirect if logged in
+// Redirect user if already logged in
 if (is_logged_in()) {
     header('Location: ../pages/home.php');
     exit;
@@ -14,17 +15,22 @@ if (is_logged_in()) {
 
 $errors = [];
 
+// Handle login form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $posted_token = $_POST['csrf_token'] ?? '';
+
+    // CSRF token validation
     if (!validate_csrf($posted_token)) {
         $errors[] = "Invalid CSRF token.";
     } else {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
+        // Check for empty fields
         if ($email === '' || $password === '') {
             $errors[] = "Email and password are required.";
         } else {
+            //  Fetch user record from database
             $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
             $stmt->bind_param('s', $email);
             $stmt->execute();
@@ -32,29 +38,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $res->fetch_assoc();
             $stmt->close();
 
+            //  Verify password
             if ($user && password_verify($password, $user['password'])) {
+                // Login success
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 header('Location: ../pages/home.php');
                 exit;
             } else {
+                // Wrong credentials
                 $errors[] = "Invalid email or password.";
             }
         }
     }
 }
 ?>
-<!--................FRONT END................-->
+
+<!--  FRONT-END SECTION -->
 <link rel="stylesheet" href="../assets/css/login.css">
 <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+
+<!--  HEADER -->
 <header class="login-header">
   <div class="logo">ForumX</div>
   <a href="../pages/about.php" class="about-btn">About us</a>
 </header>
 
+<!-- MAIN LOGIN AREA -->
 <main class="login-container">
   <h1 class="title">Login to <span>ForumX</span></h1>
 
+  <!--  Error display -->
   <?php if (!empty($errors)): ?>
     <div class="error-box">
       <ul>
@@ -63,7 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   <?php endif; ?>
 
+  <!--  Login form -->
   <form action="" method="POST" novalidate>
+    <!-- CSRF token for security -->
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
 
     <label for="email">Email</label>
@@ -75,15 +91,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit" class="submit-btn">Login</button>
   </form>
 
+  <!--  Registration link -->
   <p class="register-text">Don’t have an account? <a href="../pages/register.php">Register here</a></p>
 
+  <!-- Decorative image -->
   <img src="../assets/images/pen.png" alt="Pen" class="pen-img">
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
   © 2025 ForumX — A community to share ideas.
 </footer>
 
+<!-- SIMPLE FRONTEND VALIDATION SCRIPT -->
 <script>
 document.querySelector('form').addEventListener('submit', e => {
   const email = e.target.email.value.trim();
