@@ -48,6 +48,12 @@ transition: color 0.3s ease;
   margin:2rem auto 3rem;
   padding:1rem;
   text-align:left;
+  background-image: url('../images/bg2.png');
+  border: 1px solid #96aecd;
+  border-radius: 10px;
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat; 
 }
 
 .title {

@@ -36,6 +36,7 @@ forumx/
 │ ├─ logout.php
 │ ├─ profile.php
 │ |_ register.php
+│ |_ upload_profile_pic.php
 | |_ view_blog.php
 |
 ├─ assets/
@@ -50,6 +51,7 @@ forumx/
 │ │ ├─ register.css
 │ │ └─ view_blog.css
 | |
+│ ├─ profile_photos/
 │ └─ images/
 │ └─ (uploaded images go here)
 |
@@ -149,4 +151,4 @@ Minimal personal project (no license specified).
 Author: Lamya Nijardeen — [GitHub](https://github.com/yourusername)
 
 Live demo:
-https://forumx.infinityfreeapp.com/pages/home.php
+https://forumx-blog.rf.gd/pages/entry.php
