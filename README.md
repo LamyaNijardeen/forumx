@@ -151,4 +151,4 @@ Minimal personal project (no license specified).
 Author: Lamya Nijardeen — [GitHub](https://github.com/LamyaNijardeen/forumx)
 
 Live demo:
-https://forumx-blog.rf.gd/pages/entry.php 
+https://forumx-blog.rf.gd/pages/entry.php
