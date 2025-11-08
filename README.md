@@ -137,7 +137,7 @@ php -S localhost:8000
 Then open:
 👉 http://localhost:8000/pages/entry.php
 
-🧭 How to Use
+How to Use
 Visit pages/register.php → create an account.
 
 Log in at pages/login.php.
@@ -182,5 +182,5 @@ Lamya Nijardeen
 
 [GitHub](https://github.com/LamyaNijardeen/forumx)
 
-[Live Demo](https://forumx-blog.rf.gd/pages/entry.php)
+[Live Demo](https://forumx-blog.infinityfreeapp.com/pages/entry.php)
 
