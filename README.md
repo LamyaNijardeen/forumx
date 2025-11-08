@@ -1,30 +1,40 @@
-# ForumX
+# 📰 ForumX
+
 A minimal blogging platform for creating and sharing blogs.  
 This README explains how to set up the project locally and where each file belongs.
-### Key features:###
-User registration/login, roles (user/admin)
-Create/edit/delete blog posts with optional image upload
-Search posts by title
-Mobile-friendly header with a hamburger menu
-CSRF token protection and session-based auth
----
-
-## Requirements
-- PHP 8+ (with 'mysql' extension)
-- MySQL
-- Web server or PHP built-in server
-- File write permission for 'assets/images/' (for uploads)
 
 ---
 
-## Project layout (important files & folders)
+## ✨ Key Features
+
+- User registration/login  
+- Roles (user/admin)  
+- Manage user profiles  
+- Blog posts with optional image upload  
+- Search posts by title  
+- Mobile-friendly header with a hamburger menu  
+- CSRF token protection and session-based authentication  
+
+---
+
+## ⚙️ Requirements
+
+- PHP 8+ (with `mysqli` extension)  
+- MySQL  
+- Web server or PHP built-in server  
+- Write permission for `assets/images/` (for uploads)
+
+---
+
+## 📁 Project Layout (Important Files & Folders)
+
 forumx/
-|
+│
 ├─ includes/
 │ ├─ config.php # DB + session
 │ ├─ auth.php # auth helpers
 │ └─ csrf.php # CSRF helpers
-|
+│
 ├─ pages/
 │ ├─ about.php
 │ ├─ create_blog.php
@@ -35,10 +45,10 @@ forumx/
 │ ├─ login.php
 │ ├─ logout.php
 │ ├─ profile.php
-│ |_ register.php
-│ |_ upload_profile_pic.php
-| |_ view_blog.php
-|
+│ ├─ register.php
+│ ├─ upload_profile_pic.php
+│ └─ view_blog.php
+│
 ├─ assets/
 │ ├─ css/
 │ │ ├─ about.css
@@ -46,38 +56,51 @@ forumx/
 │ │ ├─ edit_blog.css
 │ │ ├─ entry.css
 │ │ ├─ home.css
-│ │ ├─ login.css 
+│ │ ├─ login.css
 │ │ ├─ profile.css
 │ │ ├─ register.css
 │ │ └─ view_blog.css
-| |
+│ │
 │ ├─ profile_photos/
-│ └─ images/
-│ └─ (uploaded images go here)
-|
-│─ .env
-|─ .gitignore
-|─ index.php
+│ └─ images/ # Uploaded blog images
+│
+├─ .env
+├─ .gitignore
+├─ index.php
 └─ README.md
 
+yaml
+Copy code
 
+---
 
+## 🧩 Setup
 
-## Setup
+### 1️⃣ Put files in place
+- Copy PHP pages into the `pages/` folder  
+- Copy `config.php`, `auth.php`, and `csrf.php` into `includes/`  
+- Copy CSS into `assets/css/` and images into `assets/images/`
 
-1. **Put files in places**
-   - Copy  PHP pages into 'pages/'.
-   - Copy 'config.php', 'auth.php', 'csrf.php' into 'includes/'.
-   - Copy CSS to ,assets/css/' and images to 'assets/images/'.
+---
 
-2. **Create '.env'** in project root:
+### 2️⃣ Create `.env` in project root
+
 DB_HOST=your-database-host
 DB_USER=your-database-username
 DB_PASS=your-database-password
 DB_NAME=your-database-name
-Update values with your DB credentials.
 
-3. **Create database and tables** (run in MySQL / phpMyAdmin):
+sql
+Copy code
+
+Update values with your actual database credentials.
+
+---
+
+### 3️⃣ Create the Database and Tables
+
+Run this SQL in MySQL / phpMyAdmin:
+
 ```sql
 CREATE DATABASE IF NOT EXISTS forumx_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE forumx_db;
@@ -101,19 +124,19 @@ CREATE TABLE blogpost (
   updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
-Make uploads folder writable
+4️⃣ Make uploads folder writable
+Ensure assets/images/ and assets/profile_photos/ exist and are writable by the webserver.
 
-Ensure assets/images/ exists and is writable by the webserver.
-
-Start local server (from project root):
+5️⃣ Start local server
+bash
+Copy code
 cd path/to/forumx
 php -S localhost:8000
+Then open:
+👉 http://localhost:8000/pages/entry.php
 
-Then open: http://localhost:8000/pages/entry.php
-
-How to use
-
-Visit pages/register.php → create account.
+🧭 How to Use
+Visit pages/register.php → create an account.
 
 Log in at pages/login.php.
 
@@ -121,34 +144,41 @@ Create posts at pages/create_blog.php.
 
 View posts on pages/home.php and pages/view_blog.php.
 
-Edit your posts at pages/edit_blog.php and view your posts at pages/profile.php.
+Edit or delete your posts at pages/profile.php.
 
-Common troubleshooting
+🧰 Common Troubleshooting
+Session warnings:
+Ensure session_start() is called only once (keep it in includes/config.php).
 
-Session warnings: session_start() must be called once (keep it in includes/config.php). Remove duplicate session_start() calls.
+Undefined function errors:
+Check all helper files are included correctly using:
+require_once __DIR__ . '/../includes/config.php';
 
-Undefined function errors: ensure all helper files are included (require_once __DIR__ . '/../includes/config.php';).
+Image upload fails:
+Verify permissions on assets/images/ and increase upload_max_filesize in php.ini.
 
-Image upload fails: check assets/images permissions and upload_max_filesize in php.ini.
+CSRF token error:
+Add this hidden field inside your form:
 
-CSRF error on submit: ensure the form includes:
-
+html
+Copy code
 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token()); ?>">
+Warnings for null values:
+Use htmlspecialchars($var ?? '') for safe output.
 
+🚀 Deployment Notes
+Upload your project to your hosting provider (FTP or File Manager).
 
-htmlspecialchars(null) warnings: wrap potentially null values as htmlspecialchars($var ?? '').
+Edit paths according to your hosting file structure.
 
-Deployment notes
+Import the database schema and update .env with host DB credentials.
 
-Upload project to your host (FTP or file manager).
-Edit paths according to folders arranged in hosting apps.
-Import DB schema on host and update .env with host DB credentials.
+Ensure assets/images/ and assets/profile_photos/ are writable on the server.
 
-Ensure assets/images/ is writable on the server.
+👩‍💻 Author
+Lamya Nijardeen
 
+GitHub Profile
 
-Minimal personal project (no license specified).
-Author: Lamya Nijardeen — [GitHub](https://github.com/LamyaNijardeen/forumx)
+Live Demo
 
-Live demo:
-https://forumx-blog.rf.gd/pages/entry.php
