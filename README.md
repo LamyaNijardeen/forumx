@@ -5,19 +5,20 @@ This README explains how to set up the project locally and where each file belon
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - User registration/login  
 - Roles (user/admin)  
 - Manage user profiles  
-- Blog posts with optional image upload  
+- Blog posts with optional image upload 
+- Edit, delete blogs options for owners 
 - Search posts by title  
 - Mobile-friendly header with a hamburger menu  
 - CSRF token protection and session-based authentication  
 
 ---
 
-## ⚙️ Requirements
+##  Requirements
 
 - PHP 8+ (with `mysqli` extension)  
 - MySQL  
@@ -26,64 +27,63 @@ This README explains how to set up the project locally and where each file belon
 
 ---
 
-## 📁 Project Layout (Important Files & Folders)
+##  Project Layout (Important Files & Folders)
 
-forumx/
-│
-├─ includes/
-│ ├─ config.php # DB + session
-│ ├─ auth.php # auth helpers
-│ └─ csrf.php # CSRF helpers
-│
-├─ pages/
-│ ├─ about.php
-│ ├─ create_blog.php
-│ ├─ delete_blog.php
-│ ├─ edit_blog.php
-│ ├─ entry.php
-│ ├─ home.php
-│ ├─ login.php
-│ ├─ logout.php
-│ ├─ profile.php
-│ ├─ register.php
-│ ├─ upload_profile_pic.php
-│ └─ view_blog.php
-│
-├─ assets/
-│ ├─ css/
-│ │ ├─ about.css
-│ │ ├─ create_blog.css
-│ │ ├─ edit_blog.css
-│ │ ├─ entry.css
-│ │ ├─ home.css
-│ │ ├─ login.css
-│ │ ├─ profile.css
-│ │ ├─ register.css
-│ │ └─ view_blog.css
-│ │
-│ ├─ profile_photos/
-│ └─ images/ # Uploaded blog images
-│
-├─ .env
-├─ .gitignore
-├─ index.php
-└─ README.md
+- forumx/
+- │
+- ├─ includes/
+- │ ├─ config.php # DB + session
+- │ ├─ auth.php # auth helpers
+- │ └─ csrf.php # CSRF helpers
+- │
+- ├─ pages/
+- │ ├─ about.php
+- │ ├─ create_blog.php
+- │ ├─ delete_blog.php
+- │ ├─ edit_blog.php
+- │ ├─ entry.php
+- │ ├─ home.php
+- │ ├─ login.php
+- │ ├─ logout.php
+- │ ├─ profile.php
+- │ ├─ register.php
+- │ ├─ upload_profile_pic.php
+- │ └─ view_blog.php
+- │
+- ├─ assets/
+- │ ├─ css/
+- │ │ ├─ about.css
+- │ │ ├─ create_blog.css
+- │ │ ├─ edit_blog.css
+- │ │ ├─ entry.css
+- │ │ ├─ home.css
+- │ │ ├─ login.css
+- │ │ ├─ profile.css
+- │ │ ├─ register.css
+- │ │ └─ view_blog.css
+- │ │
+- │ ├─ profile_photos/
+- │ └─ images/ # Uploaded blog images
+- │
+- ├─ .env
+- ├─ .gitignore
+- ├─ index.php
+- └─ README.md
 
-yaml
-Copy code
+
 
 ---
 
-## 🧩 Setup
+##  Setup
 
-### 1️⃣ Put files in place
+### 1 Put files in place
 - Copy PHP pages into the `pages/` folder  
 - Copy `config.php`, `auth.php`, and `csrf.php` into `includes/`  
 - Copy CSS into `assets/css/` and images into `assets/images/`
 
 ---
 
-### 2️⃣ Create `.env` in project root
+### 2 Create `.env` in project root
 
 DB_HOST=your-database-host
 DB_USER=your-database-username
@@ -97,7 +97,7 @@ Update values with your actual database credentials.
 
 ---
 
-### 3️⃣ Create the Database and Tables
+### 3 Create the Database and Tables
 
 Run this SQL in MySQL / phpMyAdmin:
 
@@ -124,10 +124,10 @@ CREATE TABLE blogpost (
   updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
-4️⃣ Make uploads folder writable
+4 Make uploads folder writable.
 Ensure assets/images/ and assets/profile_photos/ exist and are writable by the webserver.
 
-5️⃣ Start local server
+5 Start local server
 bash
 Copy code
 cd path/to/forumx
@@ -146,18 +146,18 @@ View posts on pages/home.php and pages/view_blog.php.
 
 Edit or delete your posts at pages/profile.php.
 
-🧰 Common Troubleshooting
-Session warnings:
+-> Common Troubleshooting
+*Session warnings:
 Ensure session_start() is called only once (keep it in includes/config.php).
 
-Undefined function errors:
+*Undefined function errors:
 Check all helper files are included correctly using:
 require_once __DIR__ . '/../includes/config.php';
 
-Image upload fails:
+*Image upload fails:
 Verify permissions on assets/images/ and increase upload_max_filesize in php.ini.
 
-CSRF token error:
+*CSRF token error:
 Add this hidden field inside your form:
 
 html
@@ -166,7 +166,7 @@ Copy code
 Warnings for null values:
 Use htmlspecialchars($var ?? '') for safe output.
 
-🚀 Deployment Notes
+-> Deployment Notes
 Upload your project to your hosting provider (FTP or File Manager).
 
 Edit paths according to your hosting file structure.
