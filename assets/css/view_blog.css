@@ -123,8 +123,8 @@ header .logout-btn:hover {
   color: #ffffff;
 }
 .post-meta img.profile-mini {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
   vertical-align: middle;

@@ -154,8 +154,8 @@ header .logout-btn:hover {
   align-items: start;
 }
 .meta img.profile-mini {
-  width: 40px;               /* slightly larger but still neat */
-  height: 40px;
+  width: 60px;               /* slightly larger but still neat */
+  height: 60px;
   border-radius: 50%;        /* make it perfectly circular */
   object-fit: cover;         /* crop image properly */
   border: 2px solid #fff;    /* adds a clean border */
@@ -174,7 +174,7 @@ header .logout-btn:hover {
   box-shadow: 0 4px 12px rgba(33, 36, 38, 0.399);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 320px;
+  height: 340px;
 }
 
 .blog-card:hover {

@@ -148,7 +148,7 @@ Ensure assets/images/ is writable on the server.
 
 
 Minimal personal project (no license specified).
-Author: Lamya Nijardeen — [GitHub](https://github.com/yourusername)
+Author: Lamya Nijardeen — [GitHub](https://github.com/LamyaNijardeen/forumx)
 
 Live demo:
-https://forumx-blog.rf.gd/pages/entry.php
+https://forumx-blog.rf.gd/pages/entry.php 
