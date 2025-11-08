@@ -111,6 +111,7 @@ CREATE TABLE user (
   email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   role ENUM('user','admin') DEFAULT 'user',
+  profile_photo VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -124,10 +125,11 @@ CREATE TABLE blogpost (
   updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
-4 Make uploads folder writable.
+```
+### 4 Make uploads folder writable.
 Ensure assets/images/ and assets/profile_photos/ exist and are writable by the webserver.
 
-5 Start local server
+### 5 Start local server
 bash
 Copy code
 cd path/to/forumx
@@ -175,10 +177,10 @@ Import the database schema and update .env with host DB credentials.
 
 Ensure assets/images/ and assets/profile_photos/ are writable on the server.
 
-👩‍💻 Author
+### Author
 Lamya Nijardeen
 
-GitHub Profile
+[GitHub](https://github.com/LamyaNijardeen/forumx)
 
-Live Demo
+[Live Demo](https://forumx-blog.rf.gd/pages/entry.php)
 
