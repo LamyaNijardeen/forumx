@@ -182,5 +182,4 @@ Lamya Nijardeen
 
 [GitHub](https://github.com/LamyaNijardeen/forumx)
 
-[Live Demo](https://forumx-blog.infinityfreeapp.com/pages/entry.php)
 
