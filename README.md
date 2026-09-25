@@ -1,7 +1,7 @@
 # 📰 ForumX
 
 A minimal blogging platform for creating and sharing blogs.  
-This README explains how to set up the project locally and where each file belongs.
+This explains how to set up the project locally and where each file belongs.
 
 ---
 
